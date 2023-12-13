@@ -69,7 +69,7 @@ This exploration focuses on the following areas of math:
 
 \section{Background Information}
 
-\subsection{Basics behind the Fourier Series}
+\subsection{Overarching idea of the Fourier Series}
 
 A periodic function is one where the output for a particular input equals to
 the output for the sum of the same input and the value of the function's period.
@@ -98,17 +98,64 @@ functions such that a desired periodic function is produced.
     \label{fig:fourier_visual}
 \end{figure}
 
-A general formula for representing a periodic function as a Fourier Series with a
-period of \(2\pi\) is:
-\[
-    f(t) = \frac{a_0}{2} + \sum_{n = 1}^{\infty} a_n \cos{nt} + \sum_{n=1}^{\infty} b_n\sin{nt}
-\]
+% For reference, a general formula for representing a periodic function as a Fourier Series with a
+% period of \(2\pi\) is:
+% \begin{equation}
+%     f(t) = \frac{a_0}{2} + \sum_{n = 1}^{\infty} a_n \cos{nt} + \sum_{n=1}^{\infty} b_n\sin{nt}
+% \end{equation}
 
-\subsection{Fundamental application to draw on the Cartesian Plane}
+% This formula won't be explored in depth, however, it is included as it will
+% emphasize how the Fourier Series can be linked with complex numbers.
 
-\subsection{Rotating vectors on the Argand Plane}
+\subsection{Idea of drawing with the Fourier series explained with the Cartesian Plane}
+
+The rule is for eligible drawings to be any that can be drawn by starting at one point
+on a cartesian plane and, without lifting the hypothetical plane throughout the entire
+sketch, return to the exact same point.
+
+Defining the variable \(t\) as time, \(t = 0\) will represent the point in time
+where the drawing began and \(t = 1\) will represent the point in time where
+the drawing ended.
+
+Each point of the drawing on the plane will be defined by \(P(x(t), y(t))\),
+where \(x(t)\) and \(y(t)\) are both functions with an input of \(t\) that
+indicates the coordinates after some amount of time passed of the pen's progress
+through the drawing.
+
+Assuming that any function can be represented as a Fourier Series, then
+\(x(t)\) and \(y(t)\) can be any function and therefore, by extracting
+the coordinates on a graph of any drawing obeying the rule described earlier,
+the Fourier Series of \(x(t)\) and \(y(t)\) can be determined and therefore
+produce the desired drawing for \(t\in [0,1]\)
+\\
+
+As a simple example that does not require a Fourier Series,
+we can take a unit circle defined by \( x^2 + y^2 = 1 \) as the drawing.
+It quickly becomes evident of what \(x(t)\) and \(y(t)\) are, as since it is a circle,
+then \(x(t) = \cos(2\pi t)\) and \(y(t) = \sin(2\pi t)\).
 
 \subsection{Enriched application to draw on the Argand Plane}
+
+Euler's formula is defined to be
+\[
+    e^{it} = \cos(t) + i\sin(t)
+\]
+
+Given that both the cosine function and the sine function are included in this
+formula, a connection between this formula and the Fourier Series becomes evident.
+The two sinusoidal functions in the formula are the core behind applying the
+Fourier Series to the Argand Plane.
+
+It is easier to think of Euler's formula to be a vector on the Argand Plane\cite{sandersonWhatFourierSeries2019}.
+With just the formula given above, we have a vector with a length of 1 that rotates
+counterclockwise for larger values of \(t\) and clockwise for smaller values of \(t\).
+
+
+\begin{align*}
+     & f(t) = \sum_{n=-\infty}^{\infty} c_n e^{n \cdot 2\pi it}
+    \\
+     & c_n = \int_{0}^{1} f(t) e^{-n \cdot 2\pi it} \,dt
+\end{align*}
 
 
 \bibliographystyle{apacite}
