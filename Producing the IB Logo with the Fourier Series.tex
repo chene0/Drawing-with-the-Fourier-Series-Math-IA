@@ -152,7 +152,7 @@ With just the formula given above, we have a vector with a length of 1 that rota
 counterclockwise when the value that \(e\) is raised to is positive and
 clockwise when the value is negative.
 
-Let's add \(n\) and \(2\pi\) to the exponent in Equation \textbf{(\ref*{eq:euler})} such
+Let's incorporate \(n\) and \(2\pi\) to the power in Equation \textbf{(\ref*{eq:euler})} such
 that we have \(e^{n \cdot 2\pi it}\). The purpose of \(2\pi\) is to
 simplify what defines a revolution, as now, for every unit of time that
 \(t\) passes, a revolution will be completed. \(n, n \in \mathbb{Z}\) will define the frequency
@@ -160,7 +160,7 @@ and directionality of the rotation of the vector. If \(n > 0\), then the vector
 will rotate counterclockwise and vice versa. If \(n = 2\), then the vector would
 rotate by 2 revolutions for every unit of time that passes.
 
-Lastly, let's multiply the entire exponent by the variable \(c_n\) to get \(c_n e^{n \cdot 2\pi it}\). This will not
+Lastly, let's multiply the entire power by the variable \(c_n\) to get \(c_n e^{n \cdot 2\pi it}\). This will not
 only allow for the vector to be scaled but also for the starting rotation of
 the vector to be defined. Let's temporarily define \(c_n\) to be:
 
@@ -184,6 +184,7 @@ as:
 
 \begin{equation}
     f(t) = \sum_{n=-\infty}^{\infty} c_n e^{n \cdot 2\pi it}
+    \label{eq:ft_def}
 \end{equation}
 
 The main concern as of right now is how the value of \(c_n\) will be determined
@@ -219,15 +220,101 @@ From Equation \textbf{(\ref*{eq:cnot_lim})}, \(c_0\) can ultimately be expressed
 
 \begin{equation}
     c_0 = \int_{0}^{1} f(t) \,dt
+    \label{eq:cnot_integ}
 \end{equation}
 
+
+We can use the same technique for all other values of \(n\), but the problem is
+for all other values of \(n\) that are not 0, the vector is rotating, therefore
+it doesn't make sense to take the average of the rotating vector.
+
+Recalling the thorough definition of \(f(t)\) stated earlier in Equation \ref*{eq:ft_def},
+we can substitute Equation \ref*{eq:ft_def} into Equation \ref*{eq:cnot_integ}.
+
+\begin{align*}
+     & c_0 = \int_{0}^{1} \sum_{n=-\infty}^{\infty} c_n e^{n \cdot 2\pi it} \,dt
+    \\
+     & c_0 = \int_{0}^{1} \left( \cdots + c_{-1} e^{-1 \cdot 2\pi it} + c_{0} e^{0 \cdot 2\pi it} + c_{1} e^{1 \cdot 2\pi it} + \cdots \right) \,dt
+    \\
+     & c_0 = \cdots + \int_{0}^{1} c_{-1} e^{-1 \cdot 2\pi it} \,dt + \int_{0}^{1} c_{0} e^{0 \cdot 2\pi it} \,dt + \int_{0}^{1} c_{1} e^{1 \cdot 2\pi it} \,dt + \cdots
+\end{align*}
+
+Remember that \(\int_{0}^{1} c_{0} e^{0 \cdot 2\pi it} \,dt\) was easy to simplify
+as the power cancels out from being raised to 0. In turn, it can be further
+evaluated to be just \(c_0\), as shown below:
+
+\begin{align*}
+     & \int_{0}^{1} c_{0} e^{0 \cdot 2\pi it} \,dt
+    \\
+     & = \int_{0}^{1} c_{0} \,dt
+    \\
+     & = [c_{0}t]_{0}^1
+    \\
+     & = c_{0}
+\end{align*}
+
+Additionally, if all the other integrals were thought of as the the average of all
+the points produced when its vector rotates by one revolution, then it can
+be argued that each integral, when evaluated, would be 0.
+
+This idea is illustrated in Figure \ref*{fig:circle_integ}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{circle_integ.jpeg}
+    \caption{Illustration of averaging all the points on a circle \protect\cite{sandersonWhatFourierSeries2019}.}
+    \label{fig:circle_integ}
+\end{figure}
+
+If we were to multiply \(f(t)\) by \(e^{-n \cdot 2\pi it}\), then an effect can occur
+where all of the power's exponents will decrease by \(n\). Ultimately, we will
+get a similar scenario in the summation of all the integrals where
+all integrals are evaluated to become 0 except for the integral
+where \(n = 0\), which evaluates to \(c_0\). However, the multiplication
+of the two powers will cause the integral of some \(n\) value to simplify to just
+\(c_n\).
+
+This mechanism is mathematically shown below.
+\begin{align*}
+     & n = 1
+    \\
+     & c_1 = \int_{0}^{1} f(t) e^{-1 \cdot 2\pi it} \,dt
+    \\
+     & c_1 = \cdots + \int_{0}^{1} c_{-1} e^{-1 \cdot 2\pi it} \cdot e^{-1 \cdot 2\pi it} \,dt
+    \\
+     & + \int_{0}^{1} c_{0} e^{0 \cdot 2\pi it} \cdot e^{-1 \cdot 2\pi it} \,dt + \int_{0}^{1} c_{1} e^{1 \cdot 2\pi it} \cdot e^{-1 \cdot 2\pi it} \,dt + \cdots
+    \\
+     & c_1 = \cdots + \int_{0}^{1} c_{-1} e^{-2 \cdot 2\pi it} \,dt + \int_{0}^{1} c_{0} e^{-1 \cdot 2\pi it} \,dt + \int_{0}^{1} c_{1} e^{0 \cdot 2\pi it} \,dt + \cdots
+    \\
+     & c_1 = \cdots + 0 + 0 + c_1 + 0 + 0 + \cdots
+    \\
+     & c_1 = c_1
+\end{align*}
+
+Therefore, \(c_n\) can be defined as:
 
 \begin{equation}
     c_n = \int_{0}^{1} f(t) e^{-n \cdot 2\pi it} \,dt
+    \label{eq:cn_integ}
 \end{equation}
+
+Equation \ref*{eq:cn_integ} is what will be used in order to
+determine each value of \(c_n\)
+\\
 
 All concepts of this section come from \cite{sandersonWhatFourierSeries2019}
 
+
+\subsection{Bezier Curves?}
+(This is just a placeholder. This concept may enrich this IA, although
+I do not yet know enough to foresee if understanding this concept
+will be something that is achievable)
+
+
+\subsection{Contour integration?}
+(This is just a placeholder. This concept may enrich this IA, although
+I do not yet know enough to foresee if understanding this concept
+will be something that is achievable)
 
 \bibliographystyle{apacite}
 \bibliography{IB_MATH_IA.bib}
