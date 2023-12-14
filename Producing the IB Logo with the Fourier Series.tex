@@ -137,25 +137,96 @@ then \(x(t) = \cos(2\pi t)\) and \(y(t) = \sin(2\pi t)\).
 \subsection{Enriched application to draw on the Argand Plane}
 
 Euler's formula is defined to be
-\[
+\begin{equation}
     e^{it} = \cos(t) + i\sin(t)
-\]
+    \label{eq:euler}
+\end{equation}
 
 Given that both the cosine function and the sine function are included in this
 formula, a connection between this formula and the Fourier Series becomes evident.
 The two sinusoidal functions in the formula are the core behind applying the
 Fourier Series to the Argand Plane.
 
-It is easier to think of Euler's formula to be a vector on the Argand Plane\cite{sandersonWhatFourierSeries2019}.
+It is easier to think of Euler's formula to be a vector on the Argand Plane \cite{sandersonWhatFourierSeries2019}.
 With just the formula given above, we have a vector with a length of 1 that rotates
-counterclockwise for larger values of \(t\) and clockwise for smaller values of \(t\).
+counterclockwise when the value that \(e\) is raised to is positive and
+clockwise when the value is negative.
+
+Let's add \(n\) and \(2\pi\) to the exponent in Equation \textbf{(\ref*{eq:euler})} such
+that we have \(e^{n \cdot 2\pi it}\). The purpose of \(2\pi\) is to
+simplify what defines a revolution, as now, for every unit of time that
+\(t\) passes, a revolution will be completed. \(n, n \in \mathbb{Z}\) will define the frequency
+and directionality of the rotation of the vector. If \(n > 0\), then the vector
+will rotate counterclockwise and vice versa. If \(n = 2\), then the vector would
+rotate by 2 revolutions for every unit of time that passes.
+
+Lastly, let's multiply the entire exponent by the variable \(c_n\) to get \(c_n e^{n \cdot 2\pi it}\). This will not
+only allow for the vector to be scaled but also for the starting rotation of
+the vector to be defined. Let's temporarily define \(c_n\) to be:
+
+\begin{equation*}
+    c_n = A \cdot z
+\end{equation*}
+
+\(A\) will indicate the factor to which the vector will be scaled by. Because
+the original length of the vector was 1, then the factor will directly indicate
+the length of the vector.
+
+\(z\) will indicate the starting rotation of the vector, which would be
+\(e^{i\theta}\), where \(\theta\) is the starting rotation angle in radians.
+\\
+
+It could be imagined that the final Fourier Series that produces a desired drawing
+is the sum of multiple vectors of different magnitudes rotating a different frequencies
+indicated by \(n, n \in \mathbb{Z}\). Therefore, if \(f(t)\) is defined to be the
+function that represents the drawing, this can be expressed mathematically
+as:
+
+\begin{equation}
+    f(t) = \sum_{n=-\infty}^{\infty} c_n e^{n \cdot 2\pi it}
+\end{equation}
+
+The main concern as of right now is how the value of \(c_n\) will be determined
+for a specific drawing.
+
+The easiest way to start off is by first considering \(c_0 e^{0 \cdot 2\pi it}\).
+This can be simplified into \(c_0\), but what does this mean?
+This is the vector that is rotating at a frequency of 0, which means that
+it is static. It can therefore be defined to be the "centre of mass"\cite{sandersonWhatFourierSeries2019}
+of the entire function.
+
+If we take discrete intervals of \(t\) and obtain the value of \(f(t)\),
+then by taking the average of all those values, we obtain a complex number
+close to \(c_0\). This is illusrated by Figure \ref{fig:cnot_integ}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{cnot_integ.jpeg}
+    \caption{Averaging points throughout \protect\(f(t)\) illustrated \protect\cite{sandersonWhatFourierSeries2019}. The number line represent \protect\(t\), and the red dots on the musical note represent the resulting values of \protect\(f(t)\)}
+    \label{fig:cnot_integ}
+\end{figure}
+
+With finer and finer intervals of \(t\), the result
+becomes more and more accurate to the value of \(c_0\), therefore it can be
+said that:
+
+\begin{equation}
+    c_0 = \lim_{\Delta t \to 0} \sum_{t = 0}^{\frac{1}{\Delta t}} f(t \cdot \Delta t) \Delta t
+    \label{eq:cnot_lim}
+\end{equation}
+
+From Equation \textbf{(\ref*{eq:cnot_lim})}, \(c_0\) can ultimately be expressed as:
+
+\begin{equation}
+    c_0 = \int_{0}^{1} f(t) \,dt
+\end{equation}
 
 
-\begin{align*}
-     & f(t) = \sum_{n=-\infty}^{\infty} c_n e^{n \cdot 2\pi it}
-    \\
-     & c_n = \int_{0}^{1} f(t) e^{-n \cdot 2\pi it} \,dt
-\end{align*}
+\begin{equation}
+    c_n = \int_{0}^{1} f(t) e^{-n \cdot 2\pi it} \,dt
+\end{equation}
+
+All concepts of this section come from \cite{sandersonWhatFourierSeries2019}
 
 
 \bibliographystyle{apacite}
