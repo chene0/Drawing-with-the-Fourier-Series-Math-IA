@@ -134,7 +134,7 @@ we can take a unit circle defined by \( x^2 + y^2 = 1 \) as the drawing.
 It quickly becomes evident of what \(x(t)\) and \(y(t)\) are, as since it is a circle,
 then \(x(t) = \cos(2\pi t)\) and \(y(t) = \sin(2\pi t)\).
 
-\subsection{Enriched application to draw on the Argand Plane}
+\subsection{Enriched application to draw on the Argand Plane} \label{sec:big_guy}
 
 Euler's formula is defined to be
 \begin{equation}
@@ -305,21 +305,70 @@ determine each value of \(c_n\)
 All concepts of this section come from \cite{sandersonWhatFourierSeries2019}.
 
 
-\subsection{Bezier Curves?}
-(This is just a placeholder. This concept may enrich this IA, although
-I do not yet know enough to foresee if understanding this concept
-will be something that is achievable)
+\subsection{Bezier Curves}
 
 
 \subsection{Composition of ".svg" files}
-(This is just a placeholder and this topic will only be considered
-if Bezier Curves are incorporated)
 
 
 \subsection{Contour integration?}
 (This is just a placeholder. This concept may enrich this IA, although
 I do not yet know enough to foresee if understanding this concept
 will be something that is achievable)
+
+
+
+
+\section{Methodology}
+
+\subsection{Analysis of ".svg" Files}
+
+\subsection{Computation of parameters}
+
+Given that \(f(t)\) is able to be determined as a piecewise function
+from the previous section, the desired summation representing
+\(f(t)\) can be determined.
+
+Referring back to Section \ref*{sec:big_guy}, \(c_n\) is defined as:
+
+\begin{equation*}
+    c_n = \int_{0}^{1} f(t) e^{-n \cdot 2\pi it} \,dt
+\end{equation*}
+
+This means that every \(c_n\) must be determined individually. Therefore,
+it becomes evident that it is unreasonable to evaluate the infinite sum of
+\(f(t) = \sum_{n=-\infty}^{\infty} c_n e^{n \cdot 2\pi it}\), and that
+the limits of the summation must be defined.
+
+Let's rewrite \(f(t)\) as:
+\begin{equation*}
+    f(t) = \sum_{n=-k}^{k} c_n e^{n \cdot 2\pi it}
+\end{equation*}
+
+so that \(k\) indicates the frequency of the two fastest vectors
+that are spinning in opposite directions to each other.
+
+As \(k \to \infty\), \(f(t)\) becomes more and more accurate to
+the original drawing, which will be demonstrated by performing distinct
+analyses for various values of \(k\).
+
+\subsubsection{Approach 1: Numerical Integration}
+
+\begin{equation*}
+    c_n = \int_{0}^{1} f(t) e^{-n \cdot 2\pi it} \,dt
+\end{equation*}
+
+The integral above can be evaluated for some value of \(n\) by
+taking some small value to represent \(\Delta t\), in which
+by summing up the values from \(f(t) e^{-n \cdot 2\pi it}\)
+produced by each increment of \(t\) by \(\Delta t\), a value close
+to the original integral can be determined \cite{sandersonWhatFourierSeries2019}.
+
+\begin{equation}
+    c_n = \sum_{t = 0}^{\frac{1}{\Delta t}} f(t \cdot \Delta t) e^{-n \cdot 2\pi i(t \cdot \Delta t)} \Delta t
+\end{equation}
+
+\subsection{Rendering the final image}
 
 \bibliographystyle{apacite}
 \bibliography{IB_MATH_IA.bib}
