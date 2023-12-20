@@ -307,9 +307,56 @@ All concepts of this section come from \cite{sandersonWhatFourierSeries2019}.
 
 \subsection{Bezier Curves}
 
+\subsubsection{Traditional definition of Bezier Curves}
+
+Suppose there is a free moving point \(P\) on the line drawn between
+the stationary points \(P_0\) and \(P_1\) as illustrated on
+Figure \ref*{fig:2_point_bezier}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.8\textwidth]{2_point_bezier.png}
+    \caption{2 point Bezier \protect\cite{holmerBeautyBezierCurves2021}.}
+    \label{fig:2_point_bezier}
+\end{figure}
+
+The position of \(P\) along the line will be defined by \(t\), which
+is thought of to be the percentage that \(t\) is along the line,
+where \(t = 100\%\) is located at \(P_1\) and \(t = 0\%\) is located
+at \(P_0\). This process is called linear interpolation (lerp) and
+can be expressed mathematically as:
+
+\begin{equation}
+    P = (1-t)P_0 + tP_1
+\end{equation}
 
 \subsection{Composition of ".svg" files}
 
+SVG files are "XML-based vector image format for defining two dimensional
+graphics"\cite{SVG2023}.
+
+An SVG's two dimensional size is defined by the "viewBox" attribute,
+which will indicate the width and height of the canvas.
+
+There are many attributes for drawing predefined shapes, but what
+we are concerned with is the "path" attribute, which allows for custom
+shapes and is what the IB logo will be composed of.
+
+The "path" attribute will be defined by various curves that are indicated
+by letters. The letters that are of concern in this investigation are
+listed below.
+\begin{itemize}
+    \item M: Move the pen to somewhere without drawing a line
+    \item C: Cubic bezier defined by the starting location, 2 control points, and an indicated end location
+    \item V: Draw a vertical line up to some y-coordinate
+    \item Z: Draw a straight line back to the first point of the path
+\end{itemize}
+
+Note that when the letter is lowercase, the coordinates specified will
+be relative to the current position (ex. \(m~\Delta x~\Delta y\)). If the letter is uppercase, the
+coordinates specified will be absolute to the canvas (ex. \(M~x~y\)).
+
+All information regarding paths come from \cite{mozilladevelopernetworkPathsSVGScalable2023}.
 
 \subsection{Contour integration?}
 (This is just a placeholder. This concept may enrich this IA, although
