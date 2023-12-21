@@ -372,9 +372,6 @@ This is all illustrated by Figures \ref*{fig:cubic_ill_mid} and \ref*{fig:cubic_
     \label{fig:cubic_ill_end}
 \end{figure}
 
-This process of nesting lerps is known as De Casteljau's Algorithm \cite{holmerBeautyBezierCurves2021}.
-
-
 \subsubsection{Bernstein Polynomial Form}
 
 \begin{figure}[H]
@@ -384,7 +381,7 @@ This process of nesting lerps is known as De Casteljau's Algorithm \cite{holmerB
     \label{fig:labelled_cubic}
 \end{figure}
 
-We can derive a general formula for \(P\) in terms of \(P_0, P_1, P_2, P_3\) by expanding out
+We can derive a general formula for \(P\) in terms of \(P_0, P_1, P_2, P_3, t\) by expanding out
 all of the lerp functions for each point in a Cubic Bezier Curve
 and substituting when necessary, as shown below. Variables are
 with reference to Figure \ref*{fig:labelled_cubic}.
@@ -421,8 +418,22 @@ with reference to Figure \ref*{fig:labelled_cubic}.
      & E = (1-t)B + tC
     \\
      & P = (1-t)D + tE
+    \\
+    \\
+     & P = P_0(-t^3+3t^2-3t+1) + P_1(3t^3-6t^2+3t)
+    \\
+     & + P_2(-3t^3+3t^2) + P_3(t^3)
 \end{align*}
 \endgroup
+
+Therefore, the general formula for \(P\) in terms of
+\(P_0, P_1, P_2, P_3, \text{and} t\) is
+
+\begin{equation}
+    P = P_0(-t^3+3t^2-3t+1) + P_1(3t^3-6t^2+3t) + P_2(-3t^3+3t^2) + P_3(t^3)
+\end{equation}
+
+All information regarding Bezier Curves come from \cite{holmerBeautyBezierCurves2021}.
 
 \subsection{Composition of ".svg" files}
 
