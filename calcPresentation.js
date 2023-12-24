@@ -52,8 +52,6 @@ function plotPoint(x, y){
     ctx.stroke();
 }
 
-// console.log('<img src="' + canvas.toDataURL() + '" />');
-
 readXlsxFile('./SVG_Coordinate_Spreadsheet.xlsx').then((rows) => {
     // `rows` is an array of rows
     // each row being an array of cells.
@@ -62,8 +60,8 @@ readXlsxFile('./SVG_Coordinate_Spreadsheet.xlsx').then((rows) => {
             for(let n = -k; n <= k; n++){
                 //summation
                 for(let t = 0; t < 1/sectionCount/dt; t++){
-                    const cube = fCubicCalc(t * dt, row);
-                    const add = math.multiply(dt, math.multiply(cube, math.pow(math.e, math.multiply(math.complex(0, 1), -2 * n * math.pi * (t * dt + row[9])))));
+                    const f = fCubicCalc(t * dt, row);
+                    const add = math.multiply(dt, math.multiply(f, math.pow(math.e, math.multiply(math.complex(0, 1), -2 * n * math.pi * (t * dt + row[9])))));
                     CnDict[n] = math.add(CnDict[n], add);
                 }
             }

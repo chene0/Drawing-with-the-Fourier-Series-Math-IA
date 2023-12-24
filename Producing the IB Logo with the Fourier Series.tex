@@ -230,6 +230,7 @@ With finer and finer intervals of \(t\), the result
 becomes more and more accurate to the value of \(c_0\), therefore it can be
 said that:
 
+% TODO: Elaborate on how you derived the equation below
 \begin{equation}
     c_0 = \lim_{\Delta t \to 0} \sum_{t = 0}^{\frac{1}{\Delta t}} f(t \cdot \Delta t) \Delta t
     \label{eq:cnot_lim}
@@ -448,7 +449,7 @@ with reference to Figure \ref*{fig:labelled_cubic}.
 Therefore, the general formula for \(P\) in terms of
 \(P_0, P_1, P_2, P_3, \text{and} t\) is
 
-\begin{equation}
+\begin{equation} \label{eq:pFormula}
     P = P_0(-t^3+3t^2-3t+1) + P_1(3t^3-6t^2+3t) + P_2(-3t^3+3t^2) + P_3(t^3)
 \end{equation}
 
@@ -488,7 +489,7 @@ All information regarding paths come from \cite{mozilladevelopernetworkPathsSVGS
 
 \section{Methodology}
 
-\subsection{Analysis of the ".svg" File}
+\subsection{Analysis of the ".svg" File} \label{svgAnalysis}
 
 On a canvas of height 198.426px and width 198.425px,
 a few lines of the path of the IB Logo is presented below,
@@ -602,12 +603,109 @@ version of \(f(t)\) can be thought of as a piecewise function composed
 of Bezier curves and lines, then Equation \ref*{eq:cn_riemann_sum}
 must be split up into multiple sums, each accounting for the domain
 of each piece of the piecewise function (\(\frac{1}{54}(n-1) \le t < \frac{1}{54}n\)).
+From this consideration, Equation \ref*{eq:cn_riemann_sum} can be
+expressed as the following:
+
+\begin{equation}
+    \begin{aligned} \label{eq:riemann_Expanded}
+         & c_n = \sum_{t = 0}^{(\frac{1}{54})(\frac{1}{\Delta t})} f(t \cdot \Delta t) e^{-n \cdot 2\pi i(t \cdot \Delta t)} \Delta t
+        + \sum_{t = (\frac{1}{54})(\frac{1}{\Delta t})}^{(\frac{2}{54})(\frac{1}{\Delta t})} f(t \cdot \Delta t) e^{-n \cdot 2\pi i(t \cdot \Delta t)} \Delta t
+        \\
+         & + \cdots
+        + \sum_{t = (\frac{53}{54})(\frac{1}{\Delta t})}^{(\frac{54}{54})(\frac{1}{\Delta t})} f(t \cdot \Delta t) e^{-n \cdot 2\pi i(t \cdot \Delta t)} \Delta t
+    \end{aligned}
+\end{equation}
+
+Additionally, in order to evaluate the complete range of \(f(t)\)
+for some section, \(f(t)\) must take in the complete domain of
+\([0, 1]\). The reason for this will be elaborated on in
+Section \ref*{sec:bezierCalc}, but because each section will only
+account for the some domain defined by \([\frac{1}{54}(n-1), \frac{1}{54}n)\),
+then \(f(t)\) must take an input of a manipulated value of \(t\).
+To simplify this manipulation, let's make every summation in
+Equation \ref*{eq:riemann_Expanded} have limits from 0 to
+\(\frac{1}{54\Delta t}\) and add the initial time of each
+section to \(t \cdot \Delta t\) in the expression
+\(e^{-n \cdot 2\pi i(t \cdot \Delta t)}\) so that
+the calculation for such expression stays absolute to the universal
+time passage. The input of \(f(t)\) can therefore be multiplied
+by 54 so that when the upper limit of the summation (\(\frac{1}{54\Delta t}\))
+is multiplied by 54 and \(\Delta t\), then the resulting value
+is 1 (\(\frac{1}{54\Delta t} \cdot 54\Delta t = 1\)).
+This therefore offers a domain for \(f(t)\) from 0 to 1 even if
+\(t \in [\frac{1}{54}(n-1), \frac{1}{54}n)\) for each
+summation.
+
+
+Overall, if we let \(f_n(t)\) equal to the function \(f(t)\) isolated
+to just the \(n^{\text{th}}\) section,
+Equation \ref*{eq:cn_riemann_sum} can
+be expressed as:
+
+\begin{equation}
+    \begin{aligned} \label{eq:riemann_Codefriendly}
+         & c_n = \sum_{t = 0}^{\frac{1}{54\Delta t}} f_1(54t \cdot \Delta t) e^{-n \cdot 2\pi i(t \cdot \Delta t + 0)} \Delta t
+        \\
+         & + \sum_{t = 0}^{\frac{1}{54\Delta t}} f_2(54t \cdot \Delta t) e^{-n \cdot 2\pi i(t \cdot \Delta t + \frac{1}{54})} \Delta t
+        \\
+         & + \sum_{t = 0}^{\frac{1}{54\Delta t}} f_3(54t \cdot \Delta t) e^{-n \cdot 2\pi i(t \cdot \Delta t + \frac{2}{54})} \Delta t
+        \\
+         & + \cdots +
+        \sum_{t = 0}^{\frac{1}{54\Delta t}} f_{54}(54t \cdot \Delta t) e^{-n \cdot 2\pi i(t \cdot \Delta t + \frac{53}{54})} \Delta t
+    \end{aligned}
+\end{equation}
 
 Therefore, the approach of the code will be to iterate through
 each value of \(n\) from \(-k \le n \le k\), and evaluate
-the Riemann Sum 
+the Riemann Sum using Equation \ref*{eq:riemann_Codefriendly}.
 
-\subsubsection{Calculation for Cubic Bezier Curves}
+The computer program saves a Dictionary composed of a searchable key,
+which will composed of all of the possible \(n\) values within
+a defined range that comes from a user input specifying what
+\(k\) equals. Then, each key will have an associated value
+that will start as being defined to be \(0 + 0i\), which
+is achievable through the "complex" object offered by the
+"mathjs" NPM package \cite{dejongMathjs}.
+
+Then, for each row of the Excel Spreadsheet (in which the process of
+iterating through every row was explained in Section \ref*{svgAnalysis}),
+every possible value for \(n\) is analyzed with a for loop,
+allowing the program to evaluate the value of \(c_n\) associated with
+each row.
+% TODO: find a way to incorporate the for loop code in here
+
+The following code is equivalent to Equation \ref*{eq:riemann_Codefriendly}.
+\textbf{Note: "f" represents f(t) and
+    the calculation for it will differ based on whether
+    a Bezier Curve or a Straight Line is being drawn.
+    The calculation for f(t) will be elaborated on in
+    Section \ref*{sec:bezierCalc}.}
+
+\begin{lstlisting}[language=JavaScript]
+    for(let t = 0; t < 1/sectionCount/dt; t++){
+        const f = null;
+        const add = math.multiply(dt, math.multiply(f, math.pow(math.e, math.multiply(math.complex(0, 1), -2 * n * math.pi * (t * dt + row[9])))));
+        CnDict[n] = math.add(CnDict[n], add);
+    }
+\end{lstlisting}
+
+\subsubsection{Calculation for Cubic Bezier Curves} \label{sec:bezierCalc}
+
+Recalling that Equation \ref*{eq:pFormula} stated that
+
+\begin{equation*}
+    P = P_0(-t^3+3t^2-3t+1) + P_1(3t^3-6t^2+3t) + P_2(-3t^3+3t^2) + P_3(t^3)
+\end{equation*}
+
+This was originally meant for when \(P, P_0, P_1, P_2, P_3\)
+were ordered pairs on a Cartesian Plane. However, because
+multiplication between a scalar and a Cartesian Vector operates
+similarly to multiplication between a scalar and a complex number,
+then \(P_0, P_1, P_2, P_3\) are allowed to be expressed as complex
+numbers. Given this condition, \(P\) would be equivalent to \(f(t)\)
+because \(P\) is the Cartesian vector for all points defined
+by a Bezier curve, and if the result representing \(P\) was a complex
+number, then \(P\) is representable as a function.
 
 \subsection{Rendering the final image}
 
