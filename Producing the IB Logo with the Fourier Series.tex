@@ -8,6 +8,25 @@
 \usepackage{indentfirst}
 \usepackage[justification=centering]{caption}
 \usepackage{float}
+\usepackage{tabularray}
+\usepackage{listings}
+\lstset{
+    breaklines=true,                    % sets automatic line breaking
+%   breakatwhitespace=false,            % sets if automatic breaks should only happen at whitespace
+    prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}} % just as an example
+}
+\usepackage{color}
+\definecolor{lightgray}{rgb}{.9,.9,.9}
+\definecolor{darkgray}{rgb}{.4,.4,.4}
+\definecolor{purple}{rgb}{0.65, 0.12, 0.82}
+\lstdefinelanguage{JavaScript}{
+    keywords={break, case, catch, continue, debugger, default, delete, do, else, finally, for, function, if, in, instanceof, new, return, switch, this, throw, try, typeof, var, void, while, with},
+    morecomment=[l]{//},
+    morecomment=[s]{/*}{*/},
+    morestring=[b]',
+    morestring=[b]",
+    sensitive=true
+}
 
 \title{MATHEMATICS ANALYSIS AND APPROACHES HL
 \\
@@ -453,6 +472,7 @@ listed below.
 \begin{itemize}
     \item M: Move the pen to somewhere without drawing a line
     \item C: Cubic bezier defined by the starting location, 2 control points, and an indicated end location
+    \item L: Draw a vertical line to some coordinate
     \item V: Draw a vertical line up to some y-coordinate
     \item Z: Draw a straight line back to the first point of the path
 \end{itemize}
@@ -470,7 +490,157 @@ All information regarding paths come from \cite{mozilladevelopernetworkPathsSVGS
 
 \subsection{Analysis of the ".svg" File}
 
-On a canvas of height 198.426px and width 198.425px, the path of the IB logo in the SVG file is presented below \cite{internationalbaccalaureateorganisationInternationalBaccalaureateLogo2013}. \textbf{Note: SVG files interpret positive y-values as downwards.}
+On a canvas of height 198.426px and width 198.425px,
+a few lines of the path of the IB Logo is presented below,
+with the entire path presented in Section \ref*{app:fullSVG}
+of the appendix
+\cite{internationalbaccalaureateorganisationInternationalBaccalaureateLogo2013}. \textbf{Note: SVG files interpret positive y-values as downwards.}
+
+\begin{verbatim}
+    <path fill="url(#SVGID_1_)" d="
+    M198.425,99.155
+    c 0,54.833 -45.075,99.271 -100.685,99.271
+    c -47.27, 0 -86.91 -32.11 -97.74 -75.416
+    c 19.703 -0.222, 38.391 -4.567, 55.26 -12.149
+    V 72.226
+    ...
+    C 68.199, 48.705, 71.582, 47.359, 74.363, 44.669
+    z"/>
+\end{verbatim}
+
+Disregarding any "Move" actions, there are 54 pen strokes
+in total for the IB Logo. This means that for the starting piecewise
+form of \(f(t)\), each piece will have a domain of \(\frac{1}{54}(n-1) \le t < \frac{1}{54}n\),
+where \(n\) represents the index of the current pen stroke.
+
+The contents of this path was moved into an Excel Spreadsheet for
+the sake of organization, with part of the spreadsheet shown
+in Figure \ref*{fig:svgxlsx}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{svgxlsx.png}
+    \caption{Path data imported in an Excel Spreadsheet}
+    \label{fig:svgxlsx}
+\end{figure}
+
+Using Javascript under the NodeJS Runtime, this spreadsheet can
+be read using the NPM Package "read-excel-file" \cite{kuchumovReadexcelfile}.
+This package will parse the spreadsheet into an array of rows,
+with each row being an array of cells. Then, the code presented
+below will iterate through each row, with access to all the cells
+in that row indexed by zero-based numbering.
+
+\begin{lstlisting}[language=JavaScript]
+    readXlsxFile('./SVG_Coordinate_Spreadsheet.xlsx')
+    .then((rows) => {
+        // `rows` is an array of rows
+        // each row being an array of cells.
+        rows.forEach(row => {
+            // iterate through each row, accessing the
+            // cells of each row
+        });
+    })
+\end{lstlisting}
+
+For each row, the code checks if the operation for the current
+row is relevant for drawing. Only "Move" (M) is ignored, and
+all "Z" operations were written down as "line" (L) operations.
+Using the data within each row, the parameter of \(c_n\) can be
+computed for each value of \(n\).
+
+\subsection{Computation of parameters}
+
+Given that \(f(t)\) is able to be determined as a piecewise function
+from the previous section, the desired summation representing
+\(f(t)\) can be determined.
+
+Referring back to Section \ref*{sec:big_guy}, \(c_n\) is defined as:
+
+\begin{equation*}
+    c_n = \int_{0}^{1} f(t) e^{-n \cdot 2\pi it} \,dt
+\end{equation*}
+
+This means that every \(c_n\) must be determined individually. Therefore,
+it becomes evident that it is unreasonable to evaluate the infinite sum of
+\(f(t) = \sum_{n=-\infty}^{\infty} c_n e^{n \cdot 2\pi it}\), and that
+the limits of the summation must be defined.
+
+Let's rewrite \(f(t)\) as:
+\begin{equation*}
+    f(t) = \sum_{n=-k}^{k} c_n e^{n \cdot 2\pi it}
+\end{equation*}
+
+so that \(k\) indicates the selected frequency of the two fastest vectors
+that are spinning in opposite directions to each other.
+
+As \(k \to \infty\), \(f(t)\) becomes more and more accurate to
+the original drawing, which will be demonstrated by performing distinct
+analyses for various values of \(k\).
+
+\subsubsection{Approach to integration}
+
+\begin{equation*}
+    c_n = \int_{0}^{1} f(t) e^{-n \cdot 2\pi it} \,dt
+\end{equation*}
+
+The integral above can be evaluated for some value of \(n\) by
+taking some small value to represent \(\Delta t\), in which
+by summing up the values from \(f(t) e^{-n \cdot 2\pi it}\)
+produced by each increment of \(t\) by \(\Delta t\), a value close
+to the original integral can be determined \cite{sandersonWhatFourierSeries2019}.
+This is known as a Riemann Sum \cite{RiemannSum2023}.
+
+\begin{equation}
+    c_n = \sum_{t = 0}^{\frac{1}{\Delta t}} f(t \cdot \Delta t) e^{-n \cdot 2\pi i(t \cdot \Delta t)} \Delta t
+    \label{eq:cn_riemann_sum}
+\end{equation}
+
+Because a small value of \(\Delta t\) must be used, \(c_n\) must
+be evaluated through a computer. Additionally, since the original
+version of \(f(t)\) can be thought of as a piecewise function composed
+of Bezier curves and lines, then Equation \ref*{eq:cn_riemann_sum}
+must be split up into multiple sums, each accounting for the domain
+of each piece of the piecewise function (\(\frac{1}{54}(n-1) \le t < \frac{1}{54}n\)).
+
+Therefore, the approach of the code will be to iterate through
+each value of \(n\) from \(-k \le n \le k\), and evaluate
+the Riemann Sum 
+
+\subsubsection{Calculation for Cubic Bezier Curves}
+
+\subsection{Rendering the final image}
+
+
+\section{Results}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.5\textwidth]{5.png}
+    \caption{\protect\(\Delta t = 0.0001\), 10 spinning vectors, 11 total vectors}
+    % \label{fig:svgxlsx}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.5\textwidth]{25.png}
+    \caption{\protect\(\Delta t = 0.0001\), 50 spinning vectors, 51 total vectors}
+    % \label{fig:svgxlsx}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.5\textwidth]{1000.png}
+    \caption{\protect\(\Delta t = 0.00001\), 2000 spinning vectors, 2001 total vectors}
+    % \label{fig:svgxlsx}
+\end{figure}
+
+\bibliographystyle{apacite}
+\bibliography{IB_MATH_IA.bib}
+
+\appendix
+
+\section{Full SVG Path} \label{app:fullSVG}
 
 \begin{verbatim}
     <path fill="url(#SVGID_1_)" d="
@@ -532,61 +702,8 @@ On a canvas of height 198.426px and width 198.425px, the path of the IB logo in 
     z"/>
 \end{verbatim}
 
-Disregarding any "Move" or "Z" actions, there are 48 pen strokes
-in total for the IB Logo. This means that for the starting piecewise
-form of \(f(t)\), each piece will have a domain of \(\frac{1}{48}(n-1) \le t < \frac{1}{48}n\),
-where \(n\) represents the number of the current pen stroke.
+\section{Full Calculation and Graphing Program Code}
 
-
-
-\subsection{Computation of parameters}
-
-Given that \(f(t)\) is able to be determined as a piecewise function
-from the previous section, the desired summation representing
-\(f(t)\) can be determined.
-
-Referring back to Section \ref*{sec:big_guy}, \(c_n\) is defined as:
-
-\begin{equation*}
-    c_n = \int_{0}^{1} f(t) e^{-n \cdot 2\pi it} \,dt
-\end{equation*}
-
-This means that every \(c_n\) must be determined individually. Therefore,
-it becomes evident that it is unreasonable to evaluate the infinite sum of
-\(f(t) = \sum_{n=-\infty}^{\infty} c_n e^{n \cdot 2\pi it}\), and that
-the limits of the summation must be defined.
-
-Let's rewrite \(f(t)\) as:
-\begin{equation*}
-    f(t) = \sum_{n=-k}^{k} c_n e^{n \cdot 2\pi it}
-\end{equation*}
-
-so that \(k\) indicates the selected frequency of the two fastest vectors
-that are spinning in opposite directions to each other.
-
-As \(k \to \infty\), \(f(t)\) becomes more and more accurate to
-the original drawing, which will be demonstrated by performing distinct
-analyses for various values of \(k\).
-
-\subsubsection{Approach 1: Numerical Integration}
-
-\begin{equation*}
-    c_n = \int_{0}^{1} f(t) e^{-n \cdot 2\pi it} \,dt
-\end{equation*}
-
-The integral above can be evaluated for some value of \(n\) by
-taking some small value to represent \(\Delta t\), in which
-by summing up the values from \(f(t) e^{-n \cdot 2\pi it}\)
-produced by each increment of \(t\) by \(\Delta t\), a value close
-to the original integral can be determined \cite{sandersonWhatFourierSeries2019}.
-
-\begin{equation}
-    c_n = \sum_{t = 0}^{\frac{1}{\Delta t}} f(t \cdot \Delta t) e^{-n \cdot 2\pi i(t \cdot \Delta t)} \Delta t
-\end{equation}
-
-\subsection{Rendering the final image}
-
-\bibliographystyle{apacite}
-\bibliography{IB_MATH_IA.bib}
+\lstinputlisting[language=JavaScript]{calcPresentation.js}
 
 \end{document}
