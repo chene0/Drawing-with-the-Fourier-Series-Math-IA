@@ -22,16 +22,16 @@ const fCubicCalc = (t, r) => {
     const P2 = math.complex(r[5], r[6]);
     const P3 = math.complex(r[7], r[8]);
 
-    let subTime = subTimeCalc(t);
+    let j = subTimeCalc(t);
     const ret = 
         math.add(
             math.add(
-                math.multiply(P0, (-1*math.pow(subTime,3) + 3*math.pow(subTime,2) - 3*subTime + 1)),
-                math.multiply(P1, (3*math.pow(subTime,3) - 6*math.pow(subTime,2) + 3*subTime))
+                math.multiply(P0, (-1*math.pow(j,3) + 3*math.pow(j,2) - 3*j + 1)),
+                math.multiply(P1, (3*math.pow(j,3) - 6*math.pow(j,2) + 3*j))
             ),
             math.add(
-                math.multiply(P2, (-3*math.pow(subTime,3) + 3*math.pow(subTime,2))),
-                math.multiply(P3, (math.pow(subTime,3)))
+                math.multiply(P2, (-3*math.pow(j,3) + 3*math.pow(j,2))),
+                math.multiply(P3, (math.pow(j,3)))
             )
         )
     return ret;

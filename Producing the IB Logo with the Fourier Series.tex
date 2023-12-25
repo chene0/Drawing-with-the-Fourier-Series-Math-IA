@@ -579,7 +579,7 @@ As \(k \to \infty\), \(f(t)\) becomes more and more accurate to
 the original drawing, which will be demonstrated by performing distinct
 analyses for various values of \(k\).
 
-\subsubsection{Approach to integration}
+\subsubsection{Approach to integration} \label{sec:approachInteg}
 
 \begin{equation*}
     c_n = \int_{0}^{1} f(t) e^{-n \cdot 2\pi it} \,dt
@@ -705,10 +705,130 @@ then \(P_0, P_1, P_2, P_3\) are allowed to be expressed as complex
 numbers. Given this condition, \(P\) would be equivalent to \(f(t)\)
 because \(P\) is the Cartesian vector for all points defined
 by a Bezier curve, and if the result representing \(P\) was a complex
-number, then \(P\) is representable as a function.
+number, then \(P\) is representable as a function of \(t\).
+
+Something crucial to consider is that \(t\) in Equation \ref*{eq:pFormula}
+is \textbf{not} the time passage in drawing the IB logo but rather
+the lerp of the Bezier Curve from 0 to 1. To distinguish this distinction,
+the function will instead take in an input \(j\), with the relationship
+between \(j\) and \(t\) being established in Section \ref*{sec:approachInteg}
+to be \(j = 54t\).
+
+Ultimately, the Bezier Curve can be expressed as:
+
+\begin{equation} \label{eq:f_of_j_Cubic}
+    f(j) = P_0(-j^3+3j^2-3j+1) + P_1(3j^3-6j^2+3j) + P_2(-3j^3+3j^2) + P_3(j^3)
+\end{equation}
+
+The value of \(f(j)\) is evaluated through the
+following code, which is equivalent to Equation \ref*{eq:f_of_j_Cubic}:
+
+\begin{lstlisting}[language=JavaScript]
+    const sectionCount = 54;
+
+    function subTimeCalc(t){
+        return sectionCount * t;
+    };
+
+    const fCubicCalc = (t, r) => {
+        const P0 = math.complex(r[1], r[2]);
+        const P1 = math.complex(r[3], r[4]);
+        const P2 = math.complex(r[5], r[6]);
+        const P3 = math.complex(r[7], r[8]);
+
+        let j = subTimeCalc(t);
+        const ret = 
+            math.add(
+                math.add(
+                    math.multiply(P0, (-1*math.pow(j,3) + 3*math.pow(j,2) - 3*j + 1)),
+                    math.multiply(P1, (3*math.pow(j,3) - 6*math.pow(j,2) + 3*j))
+                ),
+                math.add(
+                    math.multiply(P2, (-3*math.pow(j,3) + 3*math.pow(j,2))),
+                    math.multiply(P3, (math.pow(j,3)))
+                )
+            )
+        return ret;
+    };
+\end{lstlisting}
+
+\subsubsection{Calculation for Straight Lines}
+
+In Section \ref*{sec:bezierCalc}, it was mentioned that \(t\) cannot
+be used as the input of \(f(t)\) as the original meaning of \(t\) in
+such context was the lerp progression in the Bezier Curve.
+
+While \(t\) could be used in the calculation of \(f(t)\) for straight lines,
+it is actually better to continue to use \(j = 54t\), as this allows
+for consistency and will make the derived equations relevant in the section
+to be way cleaner than if \(t\) was used.
+
+Every line will have an initial point at \(j=0\) that can be
+expressed as \(x_0 + iy_0\), as well as a final point at \(j=1\)
+that can be expressed as \(x_1 + iy_1\).
+
+Because the pathway between these two points is a straight line,
+then two linear functions can be found for \(x\) and \(y\) that
+are in terms of \(j\). This means that \(f(j)\) can be expressed
+as follows:
+
+\begin{equation*}
+    f(j) = x(j) + iy(j)
+\end{equation*}
+
+The formula for \(x(j)\) is derived below.
+
+\begin{align*}
+     & x(j) = mj + b
+    \\
+     & b = x_0
+    \\
+     & m = \frac{\Delta x}{\Delta j}
+    \\
+     & = \frac{x_1 - x_0}{1 - 0}
+    \\
+     & = x_1 - x_0
+    \\
+     & x(j) = (x_1 - x_0)j + x_0
+\end{align*}
+
+\(y(j)\) can be said to have a similar formula, as \(x_0, x_1\) are
+simply replaced by \(y_0, y_1\), and \(\Delta j\) remains 1.
+
+Ultimately, \(f(j)\) can be expressed as follows:
+
+\begin{equation}
+    f(j) = ((x_1 - x_0)j + x_0) + i((y_1 - y_0)j + y_0)
+\end{equation}
+
+This is evaluated through the following code:
+\begin{lstlisting}[language=JavaScript]
+    const f =
+    math.add(
+        math.add(
+            row[1],
+            math.multiply(
+                subTimeCalc(t * dt),
+                row[3] - row[1]
+            )
+        ),
+        math.multiply(
+            math.complex(0, 1),
+            math.add(
+                row[2],
+                math.multiply(
+                    subTimeCalc(t * dt),
+                    math.add(
+                        row[4],
+                        -1 * row[2]
+                    )
+                )
+            )
+        )
+    );
+\end{lstlisting}
 
 \subsection{Rendering the final image}
-
 
 \section{Results}
 
