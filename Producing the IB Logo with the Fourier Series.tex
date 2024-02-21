@@ -1,4 +1,6 @@
 \documentclass[letterpaper, 12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{multicol}
 \usepackage{graphicx}
 \graphicspath{{Figures/}{./}}
 \usepackage{apacite}
@@ -10,11 +12,14 @@
 \usepackage{float}
 \usepackage{tabularray}
 \usepackage{listings}
+\usepackage{url}
 \lstset{
     breaklines=true,                    % sets automatic line breaking
 %   breakatwhitespace=false,            % sets if automatic breaks should only happen at whitespace
     prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}} % just as an example
 }
+
+
 \usepackage{color}
 \definecolor{lightgray}{rgb}{.9,.9,.9}
 \definecolor{darkgray}{rgb}{.4,.4,.4}
@@ -27,6 +32,8 @@
     morestring=[b]",
     sensitive=true
 }
+\lstset{basicstyle=\footnotesize,breaklines=true}
+\pagenumbering{roman}
 
 \title{MATHEMATICS ANALYSIS AND APPROACHES HL
 \\
@@ -49,6 +56,10 @@ Producing the IB Logo with the Fourier Series}
 
 \tableofcontents
 \newpage
+
+
+\pagenumbering{arabic}
+\setcounter{page}{1}
 
 \section{Rationale}
 
@@ -102,7 +113,7 @@ This can be represented mathematically as:
 The sine wave is widely known for being a periodic function for the ease of graphing
 a sinusoidal wave. However, there are periodic functions that are difficult to
 graph with an algebraic expression, such as one that alternates between
-1 and -1 or one that is shaped as a zig-zag.
+1 and -1 or one that is shaped as a zigzag.
 
 This is the motivation behind the Fourier Series, which is to be able to represent
 period functions that normally can't be represented by an algebraic function.
@@ -133,7 +144,7 @@ on a cartesian plane and, without lifting the hypothetical plane throughout the 
 sketch, return to the exact same point.
 
 Defining the variable \(t\) as time, \(t = 0\) will represent the point in time
-where the drawing began and \(t = 1\) will represent the point in time where
+when the drawing began and \(t = 1\) will represent the point in time when
 the drawing ended.
 
 Each point of the drawing on the plane will be defined by \(P(x(t), y(t))\),
@@ -196,7 +207,7 @@ the length of the vector.
 \\
 
 It could be imagined that the final Fourier Series that produces a desired drawing
-is the sum of multiple vectors of different magnitudes rotating a different frequencies
+is the sum of multiple vectors of different magnitudes rotating at different frequencies
 indicated by \(n, n \in \mathbb{Z}\). Therefore, if \(f(t)\) is defined to be the
 function that represents the drawing, this can be expressed mathematically
 as:
@@ -217,7 +228,7 @@ of the entire function.
 
 If we take discrete intervals of \(t\) and obtain the value of \(f(t)\),
 then by taking the average of all those values, we obtain a complex number
-close to \(c_0\). This is illusrated by Figure \ref{fig:cnot_integ}.
+close to \(c_0\). This is illustrated by Figure \ref{fig:cnot_integ}.
 
 \begin{figure}[H]
     \centering
@@ -325,7 +336,7 @@ determine each value of \(c_n\)
 All concepts of this section come from \cite{sandersonWhatFourierSeries2019}.
 
 
-\subsection{Bezier Curves}
+\subsection{Bézier curves}
 
 \subsubsection{Linear interpolation}
 
@@ -336,7 +347,7 @@ Figure \ref*{fig:2_point_bezier}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=.8\textwidth]{2_point_bezier.png}
-    \caption{2 point Bezier \protect\cite{holmerBeautyBezierCurves2021}.}
+    \caption{2 point Bézier \protect\cite{holmerBeautyBezierCurves2021}.}
     \label{fig:2_point_bezier}
 \end{figure}
 
@@ -354,11 +365,10 @@ where \(lerp(P_0, P_1, t)\) is the function that represents the
 process of lerping.
 
 
-\subsubsection{Cubic Bezier Curves}
+\subsubsection{Cubic Bézier curves}
 
-While there are many types of Bezier Curves, this investigation will
-only focus on Cubic Bezier Curves as they are the only type of Bezier
-Curve used in the IB Logo.
+While there are many types of Bézier curves, this investigation will
+only focus on Cubic Bézier curves as they are the only type of Bézier curve used in the IB Logo.
 
 Suppose that instead of just 2 points, there are 4 points on the
 plane (\(P_0, P_1, P_2, P_3\)). The lines are drawn so that
@@ -374,21 +384,21 @@ these points lerp according to the same \(t\) value.
 
 This process of adding points on lines and drawing new lines
 until just one moving point along a single line is created, which
-will be the "pen" of the Bezier Curve.
+will be the "pen" of the Bézier curve.
 
 This is all illustrated by Figures \ref*{fig:cubic_ill_mid} and \ref*{fig:cubic_ill_end}.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=.8\textwidth]{cubic_ill_mid.png}
-    \caption{Cubic Bezier around the middle of its lerp \protect\cite{holmerBeautyBezierCurves2021}.}
+    \caption{Cubic Bézier around the middle of its lerp \protect\cite{holmerBeautyBezierCurves2021}.}
     \label{fig:cubic_ill_mid}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=.8\textwidth]{cubic_ill_end.png}
-    \caption{Cubic Bezier nearing the end of its lerp \protect\cite{holmerBeautyBezierCurves2021}.}
+    \caption{Cubic Bézier nearing the end of its lerp \protect\cite{holmerBeautyBezierCurves2021}.}
     \label{fig:cubic_ill_end}
 \end{figure}
 
@@ -397,12 +407,12 @@ This is all illustrated by Figures \ref*{fig:cubic_ill_mid} and \ref*{fig:cubic_
 \begin{figure}[H]
     \centering
     \includegraphics[width=.8\textwidth]{labelled_cubic.png}
-    \caption{Cubic Bezier Curve with labelled points \protect\cite{holmerBeautyBezierCurves2021}.}
+    \caption{Cubic Bézier curve with labelled points \protect\cite{holmerBeautyBezierCurves2021}.}
     \label{fig:labelled_cubic}
 \end{figure}
 
 We can derive a general formula for \(P\) in terms of \(P_0, P_1, P_2, P_3, t\) by expanding out
-all of the lerp functions for each point in a Cubic Bezier Curve
+all of the lerp functions for each point in a Cubic Bézier curve
 and substituting when necessary, as shown below. Variables are
 with reference to Figure \ref*{fig:labelled_cubic}.
 
@@ -453,7 +463,7 @@ Therefore, the general formula for \(P\) in terms of
     P = P_0(-t^3+3t^2-3t+1) + P_1(3t^3-6t^2+3t) + P_2(-3t^3+3t^2) + P_3(t^3)
 \end{equation}
 
-All information regarding Bezier Curves come from \cite{holmerBeautyBezierCurves2021}.
+All information regarding Bézier curves come from \cite{holmerBeautyBezierCurves2021}.
 
 \subsection{Composition of ".svg" files}
 
@@ -472,7 +482,7 @@ by letters. The letters that are of concern in this investigation are
 listed below.
 \begin{itemize}
     \item M: Move the pen to somewhere without drawing a line
-    \item C: Cubic bezier defined by the starting location, 2 control points, and an indicated end location
+    \item C: Cubic Bézier defined by the starting location, 2 control points, and an indicated end location
     \item L: Draw a vertical line to some coordinate
     \item V: Draw a vertical line up to some y-coordinate
     \item Z: Draw a straight line back to the first point of the path
@@ -520,7 +530,7 @@ in Figure \ref*{fig:svgxlsx}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{svgxlsx.png}
+    \includegraphics[width=0.8\textwidth]{svgxlsx.png}
     \caption{Path data imported in an Excel Spreadsheet}
     \label{fig:svgxlsx}
 \end{figure}
@@ -600,7 +610,7 @@ This is known as a Riemann Sum \cite{RiemannSum2023}.
 Because a small value of \(\Delta t\) must be used, \(c_n\) must
 be evaluated through a computer. Additionally, since the original
 version of \(f(t)\) can be thought of as a piecewise function composed
-of Bezier curves and lines, then Equation \ref*{eq:cn_riemann_sum}
+of Bézier curves and lines, then Equation \ref*{eq:cn_riemann_sum}
 must be split up into multiple sums, each accounting for the domain
 of each piece of the piecewise function (\(\frac{1}{54}(n-1) \le t < \frac{1}{54}n\)).
 From this consideration, Equation \ref*{eq:cn_riemann_sum} can be
@@ -620,7 +630,7 @@ Additionally, in order to evaluate the complete range of \(f(t)\)
 for some section, \(f(t)\) must take in the complete domain of
 \([0, 1]\). The reason for this will be elaborated on in
 Section \ref*{sec:bezierCalc}, but because each section will only
-account for the some domain defined by \([\frac{1}{54}(n-1), \frac{1}{54}n)\),
+account for the same domain defined by \([\frac{1}{54}(n-1), \frac{1}{54}n)\),
 then \(f(t)\) must take an input of a manipulated value of \(t\).
 To simplify this manipulation, let's make every summation in
 Equation \ref*{eq:riemann_Expanded} have limits from 0 to
@@ -677,7 +687,7 @@ each row.
 The following code is equivalent to Equation \ref*{eq:riemann_Codefriendly}.
 \textbf{Note: "f" represents f(t) and
     the calculation for it will differ based on whether
-    a Bezier Curve or a Straight Line is being drawn.
+    a Bézier curve or a Straight Line is being drawn.
     The calculation for f(t) will be elaborated on in
     Section \ref*{sec:bezierCalc}.}
 
@@ -689,7 +699,7 @@ The following code is equivalent to Equation \ref*{eq:riemann_Codefriendly}.
     }
 \end{lstlisting}
 
-\subsubsection{Calculation for Cubic Bezier Curves} \label{sec:bezierCalc}
+\subsubsection{Calculation for Cubic Bézier curves} \label{sec:bezierCalc}
 
 Recalling that Equation \ref*{eq:pFormula} stated that
 
@@ -704,17 +714,17 @@ similarly to multiplication between a scalar and a complex number,
 then \(P_0, P_1, P_2, P_3\) are allowed to be expressed as complex
 numbers. Given this condition, \(P\) would be equivalent to \(f(t)\)
 because \(P\) is the Cartesian vector for all points defined
-by a Bezier curve, and if the result representing \(P\) was a complex
+by a Bézier curve, and if the result representing \(P\) was a complex
 number, then \(P\) is representable as a function of \(t\).
 
 Something crucial to consider is that \(t\) in Equation \ref*{eq:pFormula}
 is \textbf{not} the time passage in drawing the IB logo but rather
-the lerp of the Bezier Curve from 0 to 1. To distinguish this distinction,
+the lerp of the Bézier curve from 0 to 1. To distinguish this distinction,
 the function will instead take in an input \(j\), with the relationship
 between \(j\) and \(t\) being established in Section \ref*{sec:approachInteg}
 to be \(j = 54t\).
 
-Ultimately, the Bezier Curve can be expressed as:
+Ultimately, the Bézier curve can be expressed as:
 
 \begin{equation} \label{eq:f_of_j_Cubic}
     f(j) = P_0(-j^3+3j^2-3j+1) + P_1(3j^3-6j^2+3j) + P_2(-3j^3+3j^2) + P_3(j^3)
@@ -756,7 +766,7 @@ following code, which is equivalent to Equation \ref*{eq:f_of_j_Cubic}:
 
 In Section \ref*{sec:bezierCalc}, it was mentioned that \(t\) cannot
 be used as the input of \(f(t)\) as the original meaning of \(t\) in
-such context was the lerp progression in the Bezier Curve.
+such context was the lerp progression in the Bézier curve.
 
 While \(t\) could be used in the calculation of \(f(t)\) for straight lines,
 it is actually better to continue to use \(j = 54t\), as this allows
@@ -830,28 +840,146 @@ This is evaluated through the following code:
 
 \subsection{Rendering the final image}
 
+Recalling that the end result of \(f(t)\) is defined as the equation
+below, then rendering the final image is just a matter of going
+through various values of \(t\), summing up \(c_n e^{n \cdot 2\pi it}\)
+for all values of \(k\), and rendering the result by placing
+the real parts of \(f(t)\) on the horizontal axis on a plane,
+and placing the imaginary part of \(f(t)\) on the vertical axis
+on a plane.
+
+\begin{equation*}
+    f(t) = \sum_{n=-k}^{k} c_n e^{n \cdot 2\pi it}
+\end{equation*}
+
+Because all possible \(n\) values within an given domain and
+their associated values for \(c_n\) were stored in a dictionary,
+then iterating through the dictionary will allow for accessing
+all of the \(c_n\) values properly linked with their associated \(n\) value.
+
+The code that calculates \(f(t)\) and renders the result is presented below:
+\begin{lstlisting}[language=JavaScript]
+    let universalTime = 0;
+
+    function plotPoint(x, y){
+        const adjX = x + 99.2125;
+        const adjY = -y + 99.213;
+        ctx.strokeStyle = 'rgba(255,0,0,1)';
+        ctx.beginPath();
+        ctx.lineTo(adjX-1, adjY);
+        ctx.lineTo(adjX+1, adjY);
+        ctx.stroke();
+    }
+
+    function finalF(){
+        while(universalTime <= 1){
+            let curr = math.complex(0, 0);
+            Object.entries(CnDict).forEach(pair => {
+                [currN, cn] = pair;
+                //for a specific time
+                //calculate f(t)
+                //plot
+                curr = math.add(
+                    curr,
+                    math.multiply(
+                        cn,
+                        math.pow(
+                            math.e,
+                            math.multiply(
+                                math.complex(0, 1),
+                                currN * 2 * math.pi * universalTime
+                            )
+                        )
+                    )
+                )
+            });
+            plotPoint(curr.re, curr.im);
+            universalTime += dt;
+        }
+    }
+
+    finalF();
+    console.log('<img src="' + canvas.toDataURL() + '" />');
+\end{lstlisting}
+
 \section{Results}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=.5\textwidth]{5.png}
-    \caption{\protect\(\Delta t = 0.0001\), 10 spinning vectors, 11 total vectors}
+    \caption{\protect\(\Delta t = 0.0001, k = 5\), 10 spinning vectors, 11 total vectors}
     % \label{fig:svgxlsx}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=.5\textwidth]{25.png}
-    \caption{\protect\(\Delta t = 0.0001\), 50 spinning vectors, 51 total vectors}
+    \caption{\protect\(\Delta t = 0.0001, k = 25\), 50 spinning vectors, 51 total vectors}
     % \label{fig:svgxlsx}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=.5\textwidth]{1000.png}
-    \caption{\protect\(\Delta t = 0.00001\), 2000 spinning vectors, 2001 total vectors}
+    \caption{\protect\(\Delta t = 0.00001, k = 1000\), 2000 spinning vectors, 2001 total vectors}
     % \label{fig:svgxlsx}
 \end{figure}
+
+\section{Conclusion}
+
+Throughout this investigation, the aim of converting
+the IB logo into a Fourier Series and in turn
+rendering the IB logo using its Fourier Series has been
+accomplished. In addition to that, connecting
+Fourier Series with complex numbers has enabled
+the ability to handle a two-dimensional
+logo without separating it into two components.
+
+The primary limitation with my approach to this investigation
+was the inflexibility in terms of what the
+computer program could convert into a Fourier Series.
+Ideally, the program should take in a ".svg" file and
+automatically convert the path to Bézier curves
+as representation of what \(f(t)\) is
+prior to being converted to a Fourier Series.
+This is all due to transferring all the values
+to an Excel spreadsheet, which makes it easier to
+see the moving parts but prevents the program
+from analyzing any kind of vector art
+without the conversion of an ".svg" file into
+a spreadsheet and modifications to the code
+(e.g. number of Bézier curves or lines, size of canvas).
+
+Another limitation is that the method of
+going through the ".svg" path without
+considering continuity resulted in the artifacts present
+in the final result. This may be
+prevented in a future investigation
+by coding a program to begin
+parsing a separate \(f(t)\) function
+after detection of a significant and sudden
+change between the previous and current
+complex values.
+
+I expect that I will be able to handle learning
+Fourier Series in some university course
+in the future with ease. Although it is likely
+that Fourier Series will be taught in a course
+in the context of real numbers using
+\(\sin(t)\) and \(\cos(t)\) instead of \(e^{it}\),
+the same mechanisms will still be present around
+determining the coefficients for each term of
+the series, which has been the largest hurdle
+for me in comprehending Fourier Series in this
+investigation.
+
+The main area of extension of this investigation
+is the way in which the integral for \(c_n\) was
+evaluated where it was evaluated as a Riemann Sum.
+This integral can potentially be evaluated
+to an exact value using "Contour Integration",
+which will be a powerful enrichment to this topic
+but dives well into the realm of graduate level mathematics.
 
 \bibliographystyle{apacite}
 \bibliography{IB_MATH_IA.bib}
@@ -921,6 +1049,8 @@ This is evaluated through the following code:
 \end{verbatim}
 
 \section{Full Calculation and Graphing Program Code}
+
+
 
 \lstinputlisting[language=JavaScript]{calcPresentation.js}
 
