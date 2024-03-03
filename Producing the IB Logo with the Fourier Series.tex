@@ -61,7 +61,7 @@ Producing the IB Logo with the Fourier Series}
 \pagenumbering{arabic}
 \setcounter{page}{1}
 
-\section{Rationale}
+\section{Introduction and Rationale}
 
 I have shown interest in visual arts done through the means of software,
 with particular experience in 3D modelling and animation in Blender
@@ -77,29 +77,60 @@ to mathematics in the sense that it contains multiple graphed mathematical
 relationships in order to produce an image, the method of using the Fourier
 Series to produce similar art is more mathematically intriguing, as it
 proves use just one expression to produce the same result done by the numerous mathematical
-relationships.
+relationships. It is comparable to what are known as "one-liners"
+in the programming community, where some take it as a challenge to
+solve a programming problem that has a trivial multistep solution
+into just one line of code. I've always been admired by those
+who are able to come up with these concise solutions, and I
+perceive the idea of representing an ".svg" file as a Fourier Series
+to be a "one-liner" version in the area of math.
+
+Traditionally, the Fourier Series is in the form of a summation
+of cosine and sin functions, which in the context of this investigation
+would necessitate finding two separate Fourier Series for the
+x and y plane. However, there is also a form of the Fourier Series
+represented as a summation of \(e^{it}\) terms. This
+form is more preferable in this investigation, as not only
+will this form allow for a single Fourier Series accounting
+for both a horizontal and vertical axis but also extend
+the breadth of this investigation into the realm of
+complex numbers.
 
 
 \section{Aim}
 
 The objective of this investigation is to link Fourier series with
 complex numbers to create a single series that is capable
-of reproducing the IB logo on the Argand plane.
+of reproducing the IB logo on the Argand plane. This will be
+done with the aid of computer programming, which is essential in
+this investigation involving the computation of an extensive series
+as well as presenting the resulting graph on the Argand plane
+through plotted pixels in an image. For this investigation,
+a JavaScript program will be written with NodeJS as the runtime \cite{NodeJs}.
+JavaScript NPM packages will offer additional preprogrammed tools,
+with the following packages used in this investigation:
 
-\section{Plan of Action}
-
-This exploration focuses on the following areas of math:
 \begin{itemize}
-    \item Integral Calculus
-    \item Series
-    \item Trigonometry
-    \item Complex Analysis
-    \item Vectors
+    \item "mathjs" \cite{dejongMathjs}: Allows computation with complex numbers
+    \item "read-excel-file" \cite{kuchumovReadexcelfile}: Allows reading the Excel spreadsheet containing data of the original IB logo
+    \item "canvas" \cite{automatticCanvas}: Allows the result to be rendered on an image
+    \item "prompt-sync" \cite{fragomeniPromptsync}: Enables input during the program's runtime through a command line interface
 \end{itemize}
+
+% \section{Plan of Action}
+
+% This exploration focuses on the following areas of math:
+% \begin{itemize}
+%     \item Integral Calculus
+%     \item Series
+%     \item Trigonometry
+%     \item Complex Numbers
+%     \item Vectors
+% \end{itemize}
 
 \section{Background Information}
 
-\subsection{Overarching idea of the Fourier Series}
+\subsection{Overarching idea of the Fourier Series} \label{sec:overarchingIdea}
 
 A periodic function is one where the output for a particular input equals to
 the output for the sum of the same input and the value of the function's period.
@@ -124,20 +155,144 @@ functions such that a desired periodic function is produced.
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{fourier_basic_visual.png}
-    \caption{Visualization of the mechanism of the Fourier Series \protect\cite{sandersonWhatFourierSeries2019}. The yellow line is the periodic function resulting from the previous iteration, the red line is the sinusoidal function to be added in the next iteration.}
+    \caption{Visualization of the mechanism of the Fourier Series \protect\cite{sandersonWhatFourierSeries2019}. The purple line is the periodic function resulting from the previous iteration, the blue line is the sinusoidal function to be added in the next iteration.}
     \label{fig:fourier_visual}
 \end{figure}
+% (\( \frac{4}{\pi} \left( \frac{} \right) \))
 
-% For reference, a general formula for representing a periodic function as a Fourier Series with a
-% period of \(2\pi\) is:
-% \begin{equation}
-%     f(t) = \frac{a_0}{2} + \sum_{n = 1}^{\infty} a_n \cos{nt} + \sum_{n=1}^{\infty} b_n\sin{nt}
-% \end{equation}
+The form of the Fourier Series in Equation \ref*{eq:sincos_form} is considered
+to be the sin-cosine form and was the formula used to determine
+the Fourier Series of the function in Figure \ref*{fig:fourier_visual}.
+This is the most common form of the Fourier Series
+as it is capable of modelling periodic functions such as
+sawtooth waves and square waves that can't be expressed
+in any other way yet are common in the real world \cite{FourierSeriesDefinition}.
+It is also crucial in solving partial differential equations
+such as the heat equation \cite{sandersonWhatFourierSeries2019}.
 
-% This formula won't be explored in depth, however, it is included as it will
-% emphasize how the Fourier Series can be linked with complex numbers.
+\begin{equation}
+    \label{eq:sincos_form}
+    f(t) = a_0 + \sum_{n=1}^{\infty} (a_n \cos \frac{n\pi x}{L} + b_n \sin \frac{n\pi x}{L})
+\end{equation}
 
-\subsection{Idea of drawing with the Fourier series explained with the Cartesian Plane}
+\[
+    \text{Where } L = \text{Half of the period of the function}
+\]
+
+\begin{equation}
+    \label{eq:a_not}
+    a_0 = \frac{1}{2L} \int_{-L}^{L} f(x) \,dx
+\end{equation}
+\begin{equation}
+    \label{eq:a_n}
+    a_n = \frac{1}{L} \int_{-L}^{L} f(x) \cos \frac{n\pi x}{L} \,dx
+\end{equation}
+\begin{equation}
+    \label{eq:b_n}
+    b_n = \frac{1}{L} \int_{-L}^{L} f(x) \sin \frac{n\pi x}{L} \,dx
+\end{equation}
+
+For calculations of a Fourier Series using the sine-cosine form,
+it is important to consider whether the function of concern
+is even or odd. This is because integrating an odd function
+from \(-L\) to \(L\) would always equal to zero,
+with the mathematical explanation shown below.
+
+\begin{align*}
+     & I_{odd} = \int_{-L}^{L} f(x) \,dx = \int_{-L}^{0} f(x) \,dx + \int_{0}^{L} f(x) \,dx
+    \\
+     & \int_{-L}^{0} f(x) \,dx = -\int_{0}^{L} f(x) \,dx
+    \\
+     & \therefore I_{odd} = 0
+\end{align*}
+
+Additionally, any integral of an even function from \(-L\) to \(L\) can be simplified
+as shown below.
+
+\begin{align*}
+     & I_{even} = \int_{-L}^{L} f(x) \,dx = \int_{-L}^{0} f(x) \,dx + \int_{0}^{L} f(x) \,dx
+    \\
+     & \int_{-L}^{0} f(x) \,dx = \int_{0}^{L} f(x) \,dx
+    \\
+     & \therefore I_{even} = 2\int_{0}^{L} f(x) \,dx
+\end{align*}
+
+Finally, while \(a_n\) and \(b_n\) both involve multiplying
+two even/odd functions together, there is a method of
+predicting the type of function that will result.
+
+\begin{itemize}
+    \item Multiplying even by even produces even because the two same signs of \(y\) will emerge for \(x < 0\) and \(x > 0\)
+    \item Multiplying even by odd produces odd because the signage of \(y\) for one of \(x < 0\) or \(x > 0\) must be positive and the other negative
+    \item Multiplying odd by odd produces even because either the signage of \(y\) in the two functions will be opposite for both \(x < 0\) and \(x > 0\) or the signage will be equal, therefore producing a final signage for \(y\) of negative and positive respectively.
+\end{itemize}
+
+The determination of the Fourier Series of the function in Figure \ref*{fig:fourier_visual}
+is therefore shown below.
+
+\begingroup
+\allowdisplaybreaks
+\begin{align*}
+     & f(x) = \begin{cases}
+                     & \vdots          \\
+                  -1 & -1.5 < x < -0.5 \\
+                  1  & -0.5 < x < 0.5  \\
+                  -1 & 0.5 < x < 1.5   \\
+                     & \vdots
+              \end{cases}
+    \\
+     & f(x) = f(x + 2)
+    \\
+     & \therefore 2 = 2L
+    \\
+     & L = 1
+    \\
+    \\
+     & a_0 = \frac{1}{2L} \int_{-L}^{L} \underbrace{f(x)}_{even} \,dx
+    \\
+     & = \frac{1}{2} \int_{-1}^{1} f(x) \,dx
+    \\
+     & = \int_{0}^{1} f(x) \,dx = \int_{0}^{0.5} \,dx - \int_{0.5}^{1} \,dx = 0
+    \\
+    \\
+     & a_n = \frac{1}{L} \int_{-L}^{L} \underbrace{f(x)}_{even} \underbrace{\cos \frac{n\pi x}{L}}_{even} \,dx
+    \\
+     & = \int_{-1}^{1} \underbrace{f(x) \cos (n\pi x)}_{even} \,dx
+    \\
+     & = 2\int_{0}^{1} f(x) \cos (n\pi x) \,dx
+    \\
+     & = 2\left( \int_{0}^{0.5} \cos (n\pi x) \,dx - \int_{0.5}^{1} \cos (n\pi x) \,dx \right)
+    \\
+     & = 2\left( \frac{\sin (n\pi x)}{n\pi}\Big]_0^{0.5} - \frac{\sin (n\pi x)}{n\pi}\Big]_{0.5}^{1} \right)
+    \\
+     & = 2\left( \frac{2\sin \left( \frac{n\pi}{2} \right)}{n\pi} - \frac{\sin (n\pi)}{n\pi} \right)
+    \\
+     & \because n\in \mathbb{N},\quad a_n = 4\left( \frac{\sin (\frac{n\pi}{2})}{n\pi} \right)
+    \\
+     & a_n = \begin{cases}
+                 0               & n = 2, 4, 6, \cdots
+                 \\
+                 \frac{4}{n\pi}  & n = 1, 5, 9, \cdots
+                 \\
+                 \frac{-4}{n\pi} & n = 3, 7, 11, \cdots
+             \end{cases}
+    \\
+     & b_n = \frac{1}{L} \int_{-L}^{L} \underbrace{f(x)}_{even} \underbrace{\sin \frac{n\pi x}{L}}_{odd} \,dx
+    \\
+     & = \int_{-1}^{1} \underbrace{f(x) \sin \frac{n\pi x}{L}}_{odd} \,dx = 0
+    \\
+    \\
+     & f(t) = a_0 + \sum_{n=1}^{\infty} (a_n \cos \frac{n\pi x}{L} + b_n \sin \frac{n\pi x}{L})
+    \\
+     & = \frac{4}{\pi}\left( \frac{\cos \pi x}{1} - \frac{3\cos \pi x}{3} + \frac{5\cos \pi x}{5} - \cdots \right)
+\end{align*}
+\endgroup
+
+As stated in the aim, this investigation will explore Fourier Series
+with complex numbers to achieve a 2 dimensional graphic, which will involve
+a form of the Fourier Series differing from what is in Equation \ref*{eq:sincos_form}.
+
+\subsection{Idea of drawing with the Fourier series explained with the Cartesian Plane} \label{sec:cartplane}
 
 The rule is for eligible drawings to be any that can be drawn by starting at one point
 on a cartesian plane and, without lifting the hypothetical plane throughout the entire
@@ -161,36 +316,91 @@ produce the desired drawing for \(t\in [0,1]\)
 
 As a simple example that does not require a Fourier Series,
 we can take a unit circle defined by \( x^2 + y^2 = 1 \) as the drawing.
-It quickly becomes evident of what \(x(t)\) and \(y(t)\) are, as since it is a circle,
-then \(x(t) = \cos(2\pi t)\) and \(y(t) = \sin(2\pi t)\).
+Without consideration of Fourier Series,
+it quickly becomes evident of what \(x(t)\) and \(y(t)\) are.
+If the attempt is to model a circle on the Cartesian Plane
+with the \(x\) and \(y\) coordinates being functions of time
+(\(t\)) where \(t\in [0,1]\) with a period of 1,
+then by connecting back to trigonometry, this is a unit circle
+where \(t\) has a relationship to the angle in standard position
+defined by \(2\pi t = \theta\). Therefore,
+\(x(t) = \cos(2\pi t)\) and \(y(t) = \sin(2\pi t)\)
+as illustrated in Figure \ref*{fig:unitCircle}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.7\textwidth]{unitCircle.png}
+    \caption{Simple example of the general idea in rendering a graphic using periodic functions on the Cartesian Plane. Figure produced using "Ipe" \protect\cite{IpeExtensibleDrawing}}
+    \label{fig:unitCircle}
+\end{figure}
 
 \subsection{Enriched application to draw on the Argand Plane} \label{sec:big_guy}
 
-Euler's formula is defined to be
+In Section \ref*{sec:overarchingIdea}, it was explained that the overarching idea
+of Fourier Series is to represent any periodic function as a sum of
+sinusoidal functions. In Section \ref*{sec:cartplane}, the general
+approach to rendering a graphic through periodic functions was discussed,
+using the unit circle as an example. Recall that the final goal
+is to render a graphic using Fourier Series on the Argand Plane,
+meaning that a connection must be made between complex numbers and
+the idea discussed in Section \ref*{sec:cartplane}. Fortunately,
+Euler's formula as defined in Equation \ref*{eq:euler} will provide the strong link between
+complex numbers and the idea surrounding rendering a graphic
+using the Fourier Series.
+
 \begin{equation}
     e^{it} = \cos(t) + i\sin(t)
     \label{eq:euler}
 \end{equation}
 
-Given that both the cosine function and the sine function are included in this
-formula, a connection between this formula and the Fourier Series becomes evident.
-The two sinusoidal functions in the formula are the core behind applying the
-Fourier Series to the Argand Plane.
+For some value of \(t\), Euler's formula, when graphed on the Argand Plane,
+will appear as a point where its position along the horizontal (real) axis
+will equal to the real component of \(e^{it}\) which is \(\cos (t)\) and its
+position along the vertical (imaginary) axis will equal to the imaginary
+component of \(e^{it}\) which is \(i \sin (t)\). It therefore becomes
+evident that Euler's formula manifests the same idea shown in Figure \ref*{fig:unitCircle} of moving
+a point on a 2 dimensional plane according to a periodic function of time
+indicating the point's position on the x-axis and another periodic
+function of time indicating the point's position on the y-axis.
 
-It is easier to think of Euler's formula to be a vector on the Argand Plane \cite{sandersonWhatFourierSeries2019}.
-With just the formula given above, we have a vector with a length of 1 that rotates
-counterclockwise when the value that \(e\) is raised to is positive and
-clockwise when the value is negative.
+Before proceeding, recall that \(2\pi\) was multiplied within
+both sinusoidal functions of \(y(t) = \sin (2\pi t)\)
+and \(x(t) = \cos (2\pi t)\) in Section \ref*{sec:cartplane}
+such that both periodic functions had a period of 1
+to satisfy the restraint that \(t \in [0, 1]\).
+This restraint still applies, therefore \(2 \pi\)
+must be incorporated to Euler's formula as well
+as shown below.
 
-Let's incorporate \(n\) and \(2\pi\) to the power in Equation \textbf{(\ref*{eq:euler})} such
-that we have \(e^{n \cdot 2\pi it}\). The purpose of \(2\pi\) is to
-simplify what defines a revolution, as now, for every unit of time that
-\(t\) passes, a revolution will be completed. \(n, n \in \mathbb{Z}\) will define the frequency
-and directionality of the rotation of the vector. If \(n > 0\), then the vector
-will rotate counterclockwise and vice versa. If \(n = 2\), then the vector would
-rotate by 2 revolutions for every unit of time that passes.
+\begin{equation}
+    e^{2\pi it} = \cos(2\pi t) + i\sin(2\pi t)
+    \label{eq:2pi}
+\end{equation}
 
-Lastly, let's multiply the entire power by the variable \(c_n\) to get \(c_n e^{n \cdot 2\pi it}\). This will not
+For a complicated graphic,
+it is easier to think of Euler's formula to be a rotating vector on the
+Cartesian Plane or the
+Argand Plane \cite{sandersonWhatFourierSeries2019}.
+For the Cartesian Plane, each vector would be a grouping of one
+sinusoidal term of the Fourier Series representing \(x(t)\)
+and one sinusoidal term of the Fourier Series representing \(y(t)\),
+with the amplitudes of the two grouped terms equal to eachother. This would mean
+that the initial angle of standard position of the vector will not
+always be 0 as if they were all 0, then the graphic must begin
+on the x-axis with a positive \(x\) value. The reason behind
+this varying initial angle will be explored more definitively later on
+in the section; however, the factor that is important to consider
+is that this will mean a phase shift of the sinusoidal
+terms of \(x(t)\) and \(y(t)\) that is accomplished by
+the inclusion of both sine and cosine terms in Equation \ref*{eq:sincos_form}.
+This means that for a rotating vector modelled by Euler's formula,
+there must be variable(s) that allow the definition of both
+the amplitude of the vector and the initial angle in standard
+position of the vector.
+
+This will be accomplished by the variable \(c_n\), where \(n\) is the frequency
+of revolution of the rotating vector,
+which will be incorporated into Equation \ref*{eq:2pi} to get \(c_n e^{n \cdot 2\pi it}\). This will not
 only allow for the vector to be scaled but also for the starting rotation of
 the vector to be defined. Let's temporarily define \(c_n\) to be:
 
@@ -204,6 +414,22 @@ the length of the vector.
 
 \(z\) will indicate the starting rotation of the vector, which would be
 \(e^{i\theta}\), where \(\theta\) is the starting rotation angle in radians.
+
+Lastly, it is important to note that when using Euler's formula for
+Fourier series, \(n \in \mathbb{Z}\).
+In the sine-cosine form of Fourier Series in Equation \ref*{eq:sincos_form},
+\(n\) was defined by \(n \in \mathbb{N}\).
+Returning to the idea surrounding a grouping of two sinusoidal terms
+associated with the horizontal and vertical axes separately to create
+a rotating vector,
+then a vector that rotates clockwise can be achieved
+by a particular mixture of parameters between the two
+sinusoidal functions (e.g. \(x(t) = cos(2\pi t)\), \(y(t) = sin(-2\pi t) = -sin(2\pi t)\)).
+This gives the reason behind why a negative values of \(n\) are not
+necessary in the sine-cosine form of Fourier Series. However,
+negative \(n\) values are necessary to include for Euler's formula,
+as only the sign on the \(n\) value is capable of defining the direction
+of rotation in Euler's formula.
 \\
 
 It could be imagined that the final Fourier Series that produces a desired drawing
@@ -217,7 +443,7 @@ as:
     \label{eq:ft_def}
 \end{equation}
 
-The main concern as of right now is how the value of \(c_n\) will be determined
+The main concern is how the value of \(c_n\) will be determined
 for a specific drawing.
 
 The easiest way to start off is by first considering \(c_0 e^{0 \cdot 2\pi it}\).
@@ -279,7 +505,7 @@ evaluated to be just \(c_0\), as shown below:
     \\
      & = \int_{0}^{1} c_{0} \,dt
     \\
-     & = [c_{0}t]_{0}^1
+     & = c_{0}t]_{0}^1
     \\
      & = c_{0}
 \end{align*}
