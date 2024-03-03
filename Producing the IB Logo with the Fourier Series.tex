@@ -65,18 +65,19 @@ Producing the IB Logo with the Fourier Series}
 
 I have shown interest in visual arts done through the means of software,
 with particular experience in 3D modelling and animation in Blender
-and Cinema 4D.
+and Cinema 4D. It was the ability for the software to interpret
+any decision the artist makes with accuracy, and there is without
+a doubt that the software is composed of numerous moving parts.
+Another related type of digital art is vector art in ".svg" files, which
+in its own already relate
+to mathematics in the sense that it contains numerous graphed mathematical
+relationships in order to produce an image.
 
-I never was experienced with drawing, therefore producing digital art
-on a 2D plane using artistic skill was not of interest to me. However,
-something that I came across online was the use of the Fourier Series
-in order to produce vector art, which instantly intrigued me.
-
-While vector art files such as those with the file extension ".svg" relate
-to mathematics in the sense that it contains multiple graphed mathematical
-relationships in order to produce an image, the method of using the Fourier
-Series to produce similar art is more mathematically intriguing, as it
-proves use just one expression to produce the same result done by the numerous mathematical
+It was until I discovered an application of Fourier Series,
+a summation of sinusoidal functions, that involved converting
+these vector art pieces into a single series.
+I found this to be incredibly intriguing, as it
+requires just one expression to produce the same result done by the numerous mathematical
 relationships. It is comparable to what are known as "one-liners"
 in the programming community, where some take it as a challenge to
 solve a programming problem that has a trivial multistep solution
@@ -97,13 +98,36 @@ the breadth of this investigation into the realm of
 complex numbers.
 
 
-\section{Aim}
+\section{Aim and Methodology}
 
 The objective of this investigation is to link Fourier series with
 complex numbers to create a single series that is capable
-of reproducing the IB logo on the Argand plane. This will be
+of reproducing the IB logo on the Argand plane.
+
+The common sine-cosine form of the Fourier Series
+involves calculus, series, and trigonometry.
+To lay the foundations surrounding Fourier Series,
+an example will be explored in Section \ref*{sec:overarchingIdea}
+that will demonstrate the overarching idea of a Fourier Series
+for a simple periodic function as well as how
+the Fourier Series would be evaluated.
+
+The area of complex numbers will then be introduced, where
+after connecting the relevance of Euler's formula
+to Fourier Series, an understanding of the mechanism of the Fourier Series
+using complex numbers will be developed.
+
+Next, Bezier Curves will be explored, which involves
+polynomials to control the "lerp" of the Bezier Curve and
+complex numbers to define a 2 dimensional position on the Argand
+Plane. It will then become evident that the necessity
+for Bezier Curves comes from its ubiquitous presence
+in the ".svg" file of the IB logo.
+
+Finally, the render of the IB logo will be
 done with the aid of computer programming, which is essential in
-this investigation involving the computation of an extensive series
+this investigation involving the computation of the numerous integrals evaluated as Riemann Sums,
+the computation of the extensive Fourier Series
 as well as presenting the resulting graph on the Argand plane
 through plotted pixels in an image. For this investigation,
 a JavaScript program will be written with NodeJS as the runtime \cite{NodeJs}.
@@ -191,6 +215,8 @@ such as the heat equation \cite{sandersonWhatFourierSeries2019}.
     \label{eq:b_n}
     b_n = \frac{1}{L} \int_{-L}^{L} f(x) \sin \frac{n\pi x}{L} \,dx
 \end{equation}
+
+Note: Equations \ref*{eq:sincos_form} to \ref*{eq:b_n} came from \cite{tisdellHowComputeFourier2009}.
 
 For calculations of a Fourier Series using the sine-cosine form,
 it is important to consider whether the function of concern
@@ -287,6 +313,10 @@ is therefore shown below.
      & = \frac{4}{\pi}\left( \frac{\cos \pi x}{1} - \frac{3\cos \pi x}{3} + \frac{5\cos \pi x}{5} - \cdots \right)
 \end{align*}
 \endgroup
+
+Note: Information regarding even and odd functions and technique
+to solving a Fourier Series using the sine-cosine formula
+were of reference to \cite{tisdellHowComputeFourier2009}.
 
 As stated in the aim, this investigation will explore Fourier Series
 with complex numbers to achieve a 2 dimensional graphic, which will involve
@@ -723,7 +753,7 @@ All information regarding paths come from \cite{mozilladevelopernetworkPathsSVGS
 
 
 
-\section{Methodology}
+\section{Calculation and Computation}
 
 \subsection{Analysis of the ".svg" File} \label{svgAnalysis}
 
