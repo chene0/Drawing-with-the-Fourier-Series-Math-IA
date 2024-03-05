@@ -35,6 +35,7 @@
 }
 \lstset{basicstyle=\footnotesize,breaklines=true}
 \pagenumbering{roman}
+\globalcounter{figure}
 
 \title{MATHEMATICS ANALYSIS AND APPROACHES HL
 \\
@@ -47,7 +48,7 @@ Producing the IB Logo with the Fourier Series}
 
 \maketitle
 \begin{center}
-    Candidate Code:
+    Candidate Code: jrq911
     \\
     Session: May 2024
     \\
@@ -67,22 +68,23 @@ Producing the IB Logo with the Fourier Series}
 I have shown interest in visual arts done through the means of software,
 with particular experience in 3D modelling and animation in Blender
 and Cinema 4D. It was the ability for the software to interpret
-any decision the artist makes with accuracy, and there is without
-a doubt that the software is composed of numerous moving parts.
+any decision the artist accurately while handling the computations
+and rendering of the numerous aspects in the artwork through the
+software's complicated structure.
 Another related type of digital art is vector art in ".svg" files, which
-in its own already relate
+by its own already relate
 to mathematics in the sense that it contains numerous graphed mathematical
 relationships in order to produce an image.
 
-It was until I discovered an application of Fourier Series,
-a summation of sinusoidal functions to represent any periodic function, that involved converting
+I had discovered an application of Fourier Series,
+a summation of sinusoidal functions to represent any periodic function, that were capable of converting
 these vector art pieces into a single series.
 I found this to be incredibly intriguing, as it
 requires just one expression to produce the same result done by the numerous mathematical
 relationships. It is comparable to what are known as "one-liners"
 in the programming community, where some take it as a challenge to
-solve a programming problem that has a trivial multistep solution
-into just one line of code. I've always been admired by those
+solve an intricate programming problem
+using just one line of code. I've always admired those
 who are able to come up with these concise solutions, and I
 perceive the idea of representing an ".svg" file as a Fourier Series
 to be a "one-liner" version in the area of math.
@@ -92,28 +94,31 @@ of cosine and sin functions, which in the context of this investigation
 would necessitate finding two separate Fourier Series for the
 x and y plane. However, there is also a form of the Fourier Series
 represented as a summation of \(e^{it}\) terms. This
-form is more preferable in this investigation, as not only
-will this form allow for a single Fourier Series accounting
-for both a horizontal and vertical axis but also extend
+investigation will primarily explore the latter form, as not only
+will it allow for a single Fourier Series to account
+for both the horizontal and vertical axis but also extend
 the breadth of this investigation into the realm of
-complex numbers.
+complex numbers, ultimately allowing me
+to render the IB logo through a single summation.
 
 
 \section{Aim and Methodology}
 
-The objective of this investigation is to link Fourier series with
-complex numbers to create a single series that is capable
-of reproducing the IB logo on the Argand plane.
+The objective of this investigation is to link Fourier Series with
+complex numbers to create a single series capable
+of reproducing the IB logo on the Argand plane
+using the ".svg" vector art file of the IB logo
+as the original reference and source.
 
 The common sine-cosine form of the Fourier Series
 involves calculus, series, and trigonometry.
 To lay the foundations surrounding Fourier Series,
 an example will be explored in Section \ref*{sec:overarchingIdea}
-that will demonstrate the overarching idea of a Fourier Series
-for a simple periodic function as well as how
-the Fourier Series would be evaluated.
+that will discuss the overarching idea and common applications of Fourier Series
+exemplified by a simple periodic function as well as how
+the Fourier Series for that example function would be evaluated.
 
-The area of complex numbers will then be introduced, where
+The topic of complex numbers will then be introduced, where
 after connecting the relevance of Euler's formula
 to Fourier Series, an understanding of the mechanism of the Fourier Series
 using complex numbers will be developed.
@@ -127,19 +132,19 @@ in the ".svg" file of the IB logo.
 
 Finally, the render of the IB logo will be
 done with the aid of computer programming, which is essential in
-this investigation involving the computation of the numerous integrals evaluated as Riemann Sums,
-the computation of the extensive Fourier Series
+this investigation that involves the computation of the numerous integrals evaluated as Riemann Sums,
+the computation of the extensive Fourier Series,
 as well as presenting the resulting graph on the Argand plane
-through plotted pixels in an image. For this investigation,
+through plotted pixels on an image. For this investigation,
 a JavaScript program will be written with NodeJS as the runtime \cite{NodeJs}.
 JavaScript NPM packages will offer additional preprogrammed tools,
 with the following packages used in this investigation:
 
 \begin{itemize}
-    \item "mathjs" \cite{dejongMathjs}: Allows computation with complex numbers
+    \item "mathjs" \cite{dejongMathjs}: Allows computation of complex numbers
     \item "read-excel-file" \cite{kuchumovReadexcelfile}: Allows reading the Excel spreadsheet containing data of the original IB logo
     \item "canvas" \cite{automatticCanvas}: Allows the result to be rendered on an image
-    \item "prompt-sync" \cite{fragomeniPromptsync}: Enables input during the program's runtime through a command line interface
+    \item "prompt-sync" \cite{fragomeniPromptsync}: Enables input during the program's runtime through a command line interface, allowing for observations of how the results vary depending on parameters in the Fourier Series
 \end{itemize}
 
 % \section{Plan of Action}
@@ -166,9 +171,10 @@ This can be represented mathematically as:
      & \text{where } P = \text{ the period of the function}
 \end{align*}
 
-The sine wave is widely known for being a periodic function for the ease of graphing
-a sinusoidal wave. However, there are periodic functions that are difficult to
-graph with an algebraic expression, such as one that alternates between
+The sine wave is a common example of a periodic function,
+which can be easily graphed from \(y = \sin x\).
+However, there are periodic functions that are difficult to
+graph with a simple expression, such as one that alternates between
 1 and -1 or one that is shaped as a zigzag.
 
 This is the motivation behind the Fourier Series, which is to be able to represent
@@ -191,7 +197,7 @@ the Fourier Series of the function in Figure \ref*{fig:fourier_visual}.
 This is the most common form of the Fourier Series
 as it is capable of modelling periodic functions such as
 sawtooth waves and square waves that can't be expressed
-in any other way yet are common in the real world \cite{FourierSeriesDefinition}.
+in any other way yet are common in real world contexts such as analysis of "periodic signals in experimentation" \cite{FourierSeriesDefinition}.
 It is also crucial in solving partial differential equations
 such as the heat equation \cite{sandersonWhatFourierSeries2019}.
 
@@ -223,7 +229,8 @@ For calculations of a Fourier Series using the sine-cosine form,
 it is important to consider whether the function of concern
 is even or odd. This is because integrating an odd function
 from \(-L\) to \(L\) would always equal to zero,
-with the mathematical explanation shown below.
+with the mathematical explanation shown below
+accompanied by the visual in Figure \ref*{fig:odd}.
 
 \begin{align*}
      & I_{odd} = \int_{-L}^{L} f(x) \,dx = \int_{-L}^{0} f(x) \,dx + \int_{0}^{L} f(x) \,dx
@@ -233,8 +240,15 @@ with the mathematical explanation shown below.
      & \therefore I_{odd} = 0
 \end{align*}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.6\textwidth]{odd.png}
+    \caption{Desmos visual of an integral of an odd function from -1 to 1 equalling to 0 due to the summation of 2 integrals that are equal in magnitude but opposite in signage}
+    \label{fig:odd}
+\end{figure}
+
 Additionally, any integral of an even function from \(-L\) to \(L\) can be simplified
-as shown below.
+as shown below, with a visual explanation shown in Figure \ref*{fig:even}.
 
 \begin{align*}
      & I_{even} = \int_{-L}^{L} f(x) \,dx = \int_{-L}^{0} f(x) \,dx + \int_{0}^{L} f(x) \,dx
@@ -243,6 +257,13 @@ as shown below.
     \\
      & \therefore I_{even} = 2\int_{0}^{L} f(x) \,dx
 \end{align*}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.6\textwidth]{even.png}
+    \caption{Desmos visual of an integral of an even function from -1 to 1 equalling to double the integral of the same even function from 0 to 1 due to the summation of 2 equal integrals}
+    \label{fig:even}
+\end{figure}
 
 Finally, while \(a_n\) and \(b_n\) both involve multiplying
 two even/odd functions together, there is a method of
@@ -255,7 +276,7 @@ predicting the type of function that will result.
 \end{itemize}
 
 The determination of the Fourier Series of the function in Figure \ref*{fig:fourier_visual}
-is therefore shown below.
+is shown below.
 
 \begingroup
 \allowdisplaybreaks
@@ -413,7 +434,7 @@ sinusoidal term of the Fourier Series representing \(x(t)\)
 and one sinusoidal term of the Fourier Series representing \(y(t)\),
 with the amplitudes of the two grouped terms equal to each other. This would mean
 that the initial angle of standard position of the vector will not
-always be 0 as if they were all 0, then the graphic must begin
+always be 0 because if they were all 0, then the graphic must begin
 on the x-axis with a positive \(x\) value. The reason behind
 this varying initial angle will be explored more definitively later on
 in the section; however, the factor that is important to consider
@@ -424,22 +445,23 @@ there must be variable(s) that allow the definition of both
 the amplitude of the vector and the initial angle in standard
 position of the vector.
 
-This will be accomplished by the variable \(c_n\), where \(n\) is the frequency
+This will be accomplished by the variable \(c_n \in \mathbb{C}\), where \(n\) is the frequency
 of revolution of the rotating vector,
 which will be incorporated into Equation \ref*{eq:2pi} to get \(c_n e^{n \cdot 2\pi it}\). This will not
 only allow for the vector to be scaled but also for the starting rotation of
-the vector to be defined. Let's temporarily define \(c_n\) to be:
+the vector to be defined due to \(c_n\) being an element of the
+complex numbers. \(c_n\) can be expressed as
 
 \begin{equation*}
-    c_n = A \cdot z
+    c_n = A e^{i\theta}
 \end{equation*}
 
 \(A\) will indicate the factor to which the vector will be scaled by. Because
 the original length of the vector was 1, then the factor will directly indicate
 the length of the vector.
 
-\(z\) will indicate the starting rotation of the vector, which would be
-\(e^{i\theta}\), where \(\theta\) is the starting rotation angle in radians.
+\(e^{i\theta}\) will indicate the starting rotation of the vector,
+where \(\theta\) is the starting rotation angle in radians.
 
 Lastly, it is important to note that when using Euler's formula for
 Fourier series, \(n \in \mathbb{Z}\).
@@ -490,10 +512,12 @@ close to \(c_0\). This is illustrated by Figure \ref{fig:cnot_integ}.
 \end{figure}
 
 With finer and finer intervals of \(t\), the result
-becomes more and more accurate to the value of \(c_0\), therefore it can be
-said that:
+becomes more and more accurate to the value of \(c_0\).
+Because multiplying by \(\Delta t\) is the same as dividing by the number
+of intervals of \(t\),
+it can be
+said that the average of \(c_0\) is:
 
-% TODO: Elaborate on how you derived the equation below
 \begin{equation}
     c_0 = \lim_{\Delta t \to 0} \sum_{t = 0}^{\frac{1}{\Delta t}} f(t \cdot \Delta t) \Delta t
     \label{eq:cnot_lim}
@@ -544,7 +568,7 @@ This idea is illustrated in Figure \ref*{fig:circle_integ}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{circle_integ.jpeg}
+    \includegraphics[width=0.9\textwidth]{circle_integ.jpeg}
     \caption{Illustration of averaging all the points on a circle \protect\cite{sandersonWhatFourierSeries2019}.}
     \label{fig:circle_integ}
 \end{figure}
@@ -598,7 +622,7 @@ Figure \ref*{fig:2_point_bezier}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=.8\textwidth]{2_point_bezier.png}
+    \includegraphics[width=.6\textwidth]{2_point_bezier.png}
     \caption{2 point Bézier \protect\cite{holmerBeautyBezierCurves2021}.}
     \label{fig:2_point_bezier}
 \end{figure}
@@ -640,25 +664,28 @@ will be the "pen" of the Bézier curve.
 
 This is all illustrated by Figures \ref*{fig:cubic_ill_mid} and \ref*{fig:cubic_ill_end}.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=.8\textwidth]{cubic_ill_mid.png}
-    \caption{Cubic Bézier around the middle of its lerp \protect\cite{holmerBeautyBezierCurves2021}.}
-    \label{fig:cubic_ill_mid}
-\end{figure}
+\begin{paracol}{2}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=.95\linewidth]{cubic_ill_mid.png}
+        \caption{Cubic Bézier around the middle of its lerp \protect\cite{holmerBeautyBezierCurves2021}.}
+        \label{fig:cubic_ill_mid}
+    \end{figure}
+    \switchcolumn
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\linewidth]{cubic_ill_end.png}
+        \caption{Cubic Bézier nearing the end of its lerp \protect\cite{holmerBeautyBezierCurves2021}.}
+        \label{fig:cubic_ill_end}
+    \end{figure}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=.8\textwidth]{cubic_ill_end.png}
-    \caption{Cubic Bézier nearing the end of its lerp \protect\cite{holmerBeautyBezierCurves2021}.}
-    \label{fig:cubic_ill_end}
-\end{figure}
+\end{paracol}
 
 \subsubsection{Bernstein Polynomial Form}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=.8\textwidth]{labelled_cubic.png}
+    \includegraphics[width=.6\textwidth]{labelled_cubic.png}
     \caption{Cubic Bézier curve with labelled points \protect\cite{holmerBeautyBezierCurves2021}.}
     \label{fig:labelled_cubic}
 \end{figure}
@@ -1156,26 +1183,30 @@ The code that calculates \(f(t)\) and renders the result is presented below:
 
 \section{Results}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=.5\textwidth]{5.png}
-    \caption{\protect\(\Delta t = 0.0001, k = 5\), 10 spinning vectors, 11 total vectors}
-    % \label{fig:svgxlsx}
-\end{figure}
+\begin{paracol}{3}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\linewidth]{5.png}
+        \caption{\protect\(\Delta t = 0.0001, k = 5\), 10 spinning vectors, 11 total vectors}
+        % \label{fig:svgxlsx}
+    \end{figure}
+    \switchcolumn
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=.5\textwidth]{25.png}
-    \caption{\protect\(\Delta t = 0.0001, k = 25\), 50 spinning vectors, 51 total vectors}
-    % \label{fig:svgxlsx}
-\end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\linewidth]{25.png}
+        \caption{\protect\(\Delta t = 0.0001, k = 25\), 50 spinning vectors, 51 total vectors}
+        % \label{fig:svgxlsx}
+    \end{figure}
+    \switchcolumn
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=.5\textwidth]{1000.png}
-    \caption{\protect\(\Delta t = 0.00001, k = 1000\), 2000 spinning vectors, 2001 total vectors}
-    % \label{fig:svgxlsx}
-\end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\linewidth]{1000.png}
+        \caption{\protect\(\Delta t = 0.00001, k = 1000\), 2000 spinning vectors, 2001 total vectors}
+        \label{fig:strongestRender}
+    \end{figure}
+\end{paracol}
 
 \section{Conclusion}
 
@@ -1186,6 +1217,13 @@ accomplished. In addition to that, connecting
 Fourier Series with complex numbers has enabled
 the ability to handle a two-dimensional
 logo without separating it into two components.
+
+Achieving the goal of rendering the IB logo through
+Fourier Series using the complex plane is a strength
+of this investigation given that it necessitates
+the determination of only one Fourier Series
+that will consider both the horizontal (real)
+and vertical (imaginary) axes simultaneously.
 
 The primary limitation with my approach to this investigation
 was the inflexibility in terms of what the
@@ -1205,7 +1243,11 @@ a spreadsheet and modifications to the code
 Another limitation is that the method of
 going through the ".svg" path without
 considering continuity resulted in the artifacts present
-in the final result. This may be
+in the final result. This also causes the manifestation
+of "Gibbs Phenomenon" visible in Figure \ref*{fig:strongestRender}
+which are extreme peaks and fluctuations resulting from
+the jumps between discontinuities.
+This may be
 prevented in a future investigation
 by coding a program to begin
 parsing a separate \(f(t)\) function
@@ -1213,17 +1255,37 @@ after detection of a significant and sudden
 change between the previous and current
 complex values.
 
+Manifestations of sinusoidal waves can also be
+seen in the results even in the extreme parameters
+in Figure \ref*{fig:strongestRender} that took
+about 10 minutes to compute and render.
+This indicates the imperfections in
+Fourier Series, with computing
+a near perfect render necessitating
+more terms in the Fourier Series.
+The primary method of reducing the
+effects of this limitation is to
+look for optimizations in the computer program.
+Additionally, simpler vector artworks
+will likely manifest these sinusoidal waves
+to a lower degree.
+
 I expect that I will be able to handle learning
-Fourier Series in some university course
-in the future with ease. Although it is likely
-that Fourier Series will be taught in a course
-in the context of real numbers using
-\(\sin(t)\) and \(\cos(t)\) instead of \(e^{it}\),
-the same mechanisms will still be present around
-determining the coefficients for each term of
-the series, which has been the largest hurdle
-for me in comprehending Fourier Series in this
-investigation.
+Fourier Series in a university course
+in the future with ease. Not only have I
+already worked through a calculation for
+a common Fourier Series in Section \ref*{sec:overarchingIdea},
+but the application of Fourier Series
+using complex numbers to draw the IB logo
+has given a thorough understanding
+of the exact mechanisms of the Fourier
+Series in producing a variety of
+periodic functions. Therefore,
+I will be able to stress less about
+understanding Fourier Series alone
+and focus on learning how to
+apply it to partial differential equations
+in a future university course.
 
 The main area of extension of this investigation
 is the way in which the integral for \(c_n\) was
@@ -1245,6 +1307,8 @@ for pieces of the function nearing the end boundary.
 \appendix
 
 \section{Full SVG Path} \label{app:fullSVG}
+
+From \cite{internationalbaccalaureateorganisationInternationalBaccalaureateLogo2013}.
 
 \begin{verbatim}
     <path fill="url(#SVGID_1_)" d="
