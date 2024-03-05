@@ -1,6 +1,7 @@
 \documentclass[letterpaper, 12pt]{article}
 \usepackage[margin=1in]{geometry}
 \usepackage{multicol}
+\usepackage{paracol}
 \usepackage{graphicx}
 \graphicspath{{Figures/}{./}}
 \usepackage{apacite}
@@ -74,7 +75,7 @@ to mathematics in the sense that it contains numerous graphed mathematical
 relationships in order to produce an image.
 
 It was until I discovered an application of Fourier Series,
-a summation of sinusoidal functions, that involved converting
+a summation of sinusoidal functions to represent any periodic function, that involved converting
 these vector art pieces into a single series.
 I found this to be incredibly intriguing, as it
 requires just one expression to produce the same result done by the numerous mathematical
@@ -117,11 +118,11 @@ after connecting the relevance of Euler's formula
 to Fourier Series, an understanding of the mechanism of the Fourier Series
 using complex numbers will be developed.
 
-Next, Bezier Curves will be explored, which involves
-polynomials to control the "lerp" of the Bezier Curve and
+Next, Bézier curves will be explored, which involves
+polynomials to control the "lerp" of the Bézier curve and
 complex numbers to define a 2 dimensional position on the Argand
 Plane. It will then become evident that the necessity
-for Bezier Curves comes from its ubiquitous presence
+for Bézier curves comes from its ubiquitous presence
 in the ".svg" file of the IB logo.
 
 Finally, the render of the IB logo will be
@@ -178,7 +179,7 @@ functions such that a desired periodic function is produced.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{fourier_basic_visual.png}
+    \includegraphics[width=.8\textwidth]{fourier_basic_visual.png}
     \caption{Visualization of the mechanism of the Fourier Series \protect\cite{sandersonWhatFourierSeries2019}. The purple line is the periodic function resulting from the previous iteration, the blue line is the sinusoidal function to be added in the next iteration.}
     \label{fig:fourier_visual}
 \end{figure}
@@ -275,15 +276,12 @@ is therefore shown below.
     \\
     \\
      & a_0 = \frac{1}{2L} \int_{-L}^{L} \underbrace{f(x)}_{even} \,dx
-    \\
-     & = \frac{1}{2} \int_{-1}^{1} f(x) \,dx
-    \\
-     & = \int_{0}^{1} f(x) \,dx = \int_{0}^{0.5} \,dx - \int_{0.5}^{1} \,dx = 0
+    = \frac{1}{2} \int_{-1}^{1} f(x) \,dx
+    = \int_{0}^{1} f(x) \,dx = \int_{0}^{0.5} \,dx - \int_{0.5}^{1} \,dx = 0
     \\
     \\
      & a_n = \frac{1}{L} \int_{-L}^{L} \underbrace{f(x)}_{even} \underbrace{\cos \frac{n\pi x}{L}}_{even} \,dx
-    \\
-     & = \int_{-1}^{1} \underbrace{f(x) \cos (n\pi x)}_{even} \,dx
+    = \int_{-1}^{1} \underbrace{f(x) \cos (n\pi x)}_{even} \,dx
     \\
      & = 2\int_{0}^{1} f(x) \cos (n\pi x) \,dx
     \\
@@ -304,8 +302,7 @@ is therefore shown below.
              \end{cases}
     \\
      & b_n = \frac{1}{L} \int_{-L}^{L} \underbrace{f(x)}_{even} \underbrace{\sin \frac{n\pi x}{L}}_{odd} \,dx
-    \\
-     & = \int_{-1}^{1} \underbrace{f(x) \sin \frac{n\pi x}{L}}_{odd} \,dx = 0
+    = \int_{-1}^{1} \underbrace{f(x) \sin \frac{n\pi x}{L}}_{odd} \,dx = 0
     \\
     \\
      & f(t) = a_0 + \sum_{n=1}^{\infty} (a_n \cos \frac{n\pi x}{L} + b_n \sin \frac{n\pi x}{L})
@@ -325,7 +322,7 @@ a form of the Fourier Series differing from what is in Equation \ref*{eq:sincos_
 \subsection{Idea of drawing with the Fourier series explained with the Cartesian Plane} \label{sec:cartplane}
 
 The rule is for eligible drawings to be any that can be drawn by starting at one point
-on a cartesian plane and, without lifting the hypothetical plane throughout the entire
+on a Cartesian plane and, without lifting the hypothetical plane throughout the entire
 sketch, return to the exact same point.
 
 Defining the variable \(t\) as time, \(t = 0\) will represent the point in time
@@ -359,7 +356,7 @@ as illustrated in Figure \ref*{fig:unitCircle}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=.7\textwidth]{unitCircle.png}
+    \includegraphics[width=.6\textwidth]{unitCircle.png}
     \caption{Simple example of the general idea in rendering a graphic using periodic functions on the Cartesian Plane. Figure produced using "Ipe" \protect\cite{IpeExtensibleDrawing}}
     \label{fig:unitCircle}
 \end{figure}
@@ -414,15 +411,14 @@ Argand Plane \cite{sandersonWhatFourierSeries2019}.
 For the Cartesian Plane, each vector would be a grouping of one
 sinusoidal term of the Fourier Series representing \(x(t)\)
 and one sinusoidal term of the Fourier Series representing \(y(t)\),
-with the amplitudes of the two grouped terms equal to eachother. This would mean
+with the amplitudes of the two grouped terms equal to each other. This would mean
 that the initial angle of standard position of the vector will not
 always be 0 as if they were all 0, then the graphic must begin
 on the x-axis with a positive \(x\) value. The reason behind
 this varying initial angle will be explored more definitively later on
 in the section; however, the factor that is important to consider
-is that this will mean a phase shift of the sinusoidal
-terms of \(x(t)\) and \(y(t)\) that is accomplished by
-the inclusion of both sine and cosine terms in Equation \ref*{eq:sincos_form}.
+is that this will involve non-zero values of the Fourier Series of \(x(t)\) and \(y(t)\) when \(t=0\) that is accomplished by
+the inclusion of amplitudes as well as both sine and cosine terms in Equation \ref*{eq:sincos_form}.
 This means that for a rotating vector modelled by Euler's formula,
 there must be variable(s) that allow the definition of both
 the amplitude of the vector and the initial angle in standard
@@ -488,7 +484,7 @@ close to \(c_0\). This is illustrated by Figure \ref{fig:cnot_integ}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{cnot_integ.jpeg}
+    \includegraphics[width=0.8\textwidth]{cnot_integ.jpeg}
     \caption{Averaging points throughout \protect\(f(t)\) illustrated \protect\cite{sandersonWhatFourierSeries2019}. The number line represent \protect\(t\), and the red dots on the musical note represent the resulting values of \protect\(f(t)\)}
     \label{fig:cnot_integ}
 \end{figure}
@@ -540,7 +536,7 @@ evaluated to be just \(c_0\), as shown below:
      & = c_{0}
 \end{align*}
 
-Additionally, if all the other integrals were thought of as the the average of all
+Additionally, if all the other integrals were thought of as the average of all
 the points produced when its vector rotates by one revolution, then it can
 be argued that each integral, when evaluated, would be 0.
 
@@ -723,10 +719,10 @@ All information regarding Bézier curves come from \cite{holmerBeautyBezierCurve
 
 \subsection{Composition of ".svg" files}
 
-SVG files are "XML-based vector image format for defining two dimensional
+SVG files are "XML-based vector image format for defining two-dimensional
 graphics"\cite{SVG2023}.
 
-An SVG's two dimensional size is defined by the "viewBox" attribute,
+An SVG's two-dimensional size is defined by the "viewBox" attribute,
 which will indicate the width and height of the canvas.
 
 There are many attributes for drawing predefined shapes, but what
@@ -791,7 +787,7 @@ in Figure \ref*{fig:svgxlsx}.
     \label{fig:svgxlsx}
 \end{figure}
 
-Using Javascript under the NodeJS Runtime, this spreadsheet can
+Using JavaScript under the NodeJS Runtime, this spreadsheet can
 be read using the NPM Package "read-excel-file" \cite{kuchumovReadexcelfile}.
 This package will parse the spreadsheet into an array of rows,
 with each row being an array of cells. Then, the code presented
@@ -1108,7 +1104,7 @@ on a plane.
     f(t) = \sum_{n=-k}^{k} c_n e^{n \cdot 2\pi it}
 \end{equation*}
 
-Because all possible \(n\) values within an given domain and
+Because all possible \(n\) values within a given domain and
 their associated values for \(c_n\) were stored in a dictionary,
 then iterating through the dictionary will allow for accessing
 all of the \(c_n\) values properly linked with their associated \(n\) value.
